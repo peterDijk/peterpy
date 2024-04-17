@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "configurations": [
+      {
+          "name": "peterpy",
+          "type": "debugpy",
+          "request": "launch",
+          "module": "poetry",
+          "subProcess": true,
+          "args": [
+              "run",
+              "peterpy",
+          ],
+          "console": "integratedTerminal",
+          "justMyCode": true,
+          "cwd": "${workspaceFolder}",
+          "envFile": "",
+          "env": {},
+      },
+  ]
+}
