@@ -1,9 +1,15 @@
 logger:
-  level: INFO
-  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  version: 1
+  formatters:
+    standard:
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  handlers:
+    default:
+      level: INFO
+      formatter: standard
+      class: logging.StreamHandler
+
   datefmt: '%Y-%m-%d %H:%M:%S'
-  filename: 'logs.log'
-  filemode: 'w'
 
 app:
   host: '0.0.0.0'

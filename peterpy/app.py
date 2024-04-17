@@ -42,7 +42,7 @@ async def startup():
      await asyncio.sleep(3600)
      
 def health_check(request):
-   return web.Response(text="OK ok")
+   return web.Response(text="OK")
 
 def setup_routes(app: web.Application):
    app.router.add_get("/health", health_check)
@@ -54,9 +54,9 @@ async def shutdown(http_runner: web.AppRunner):
     await http_runner.cleanup()
 
 def main():
-   logging.basicConfig(level=config["logger"]["level"])
+   # logging.basicConfig(level=config["logger"]["level"])
    # this doesnt work yet
-   # logging.config.fileConfig(config["logger"])
+   logging.config.dictConfig(config["logger"])
    logging.info("Starting up :)")
    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
    asyncio.run(startup())
