@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import logging.config
 import uvloop
 from signal import SIGINT, SIGTERM
 from aiohttp import web
@@ -8,8 +9,6 @@ from peterpy.config import config, environment
 from peterpy import __version__
 
 async def startup():
-   logging.basicConfig(level=logging.INFO)
-   
    logging.info(f"Starting app - version {__version__} - environment {environment}")
 
    #Web app
@@ -55,8 +54,9 @@ async def shutdown(http_runner: web.AppRunner):
     await http_runner.cleanup()
 
 def main():
-   logging.basicConfig(level=logging.INFO)
-   # logging.config.fileConfig(config)
+   logging.basicConfig(level=config["logger"]["level"])
+   # this doesnt work yet
+   # logging.config.fileConfig(config["logger"])
    logging.info("Starting up :)")
    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
    asyncio.run(startup())
