@@ -59,7 +59,7 @@ async def shutdown(http_runner: web.AppRunner):
      logger.info("[SHUTDOWN] Shutting down HTTP stack")
      await http_runner.shutdown()
      await http_runner.cleanup()
-     sys.exit(EX_OK)
+   #   sys.exit(EX_OK)
    except Exception:  # pylint: disable=broad-exception-caught
       # never happens
       logger.exception("Exception happened in signal handler!")

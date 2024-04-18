@@ -10,4 +10,7 @@
 - [x] setup logger using yaml config
 - [ ] add typing enforcing
 - [ ] organize routes
+- [ ] dockerize
+- [ ] repository class, fake hardcoded data
+- [ ] setup orm
 - [ ] ...
