@@ -1,10 +1,46 @@
-logger:
-  level: INFO
-  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-  datefmt: '%Y-%m-%d %H:%M:%S'
-  filename: 'logs.log'
-  filemode: 'w'
+version: 1
+disable_existing_loggers: False
 
 app:
   host: '0.0.0.0'
   port: 8080
+
+# https://medium.com/@cyberdud3/a-step-by-step-guide-to-configuring-python-logging-with-yaml-files-914baea5a0e5
+formatters:
+    simple:
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: simple
+        stream: ext://sys.stdout
+
+    file:
+        class: logging.FileHandler
+        level: INFO
+        formatter: simple
+        filename: log.log
+        mode: a
+
+loggers:
+    development:
+        level: DEBUG
+        handlers: [console]
+        propagate: no
+
+    staging:
+        level: INFO
+        handlers: [console, file]
+        propagate: no
+
+    production:
+        level: WARNING
+        handlers: [file]
+        propagate: no
+
+root:
+    level: DEBUG
+    handlers: [console]
