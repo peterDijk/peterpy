@@ -15,7 +15,9 @@
           "justMyCode": true,
           "cwd": "${workspaceFolder}",
           "envFile": "",
-          "env": {},
+          "env": {
+                "PYDEVD_DISABLE_FILE_VALIDATION": "1"
+          },
       },
   ]
 }

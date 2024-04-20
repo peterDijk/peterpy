@@ -62,14 +62,7 @@ async def shutdown(http_runner: web.AppRunner):
 
 def main():
     logging.config.dictConfig(config)
-    logging.info("Booting ... info")
-    logging.debug("Booting ... debug")
-    logging.info("Booting ... info")
-    logging.critical("Booting ... critical")
-    logging.error("Booting ... error")
-    logging.warning("Booting ... warning")
-    logging.exception("Booting ... exception")
-    logging.warning("Booting ... warning")
+    logging.info("Booting ...")
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(startup())
