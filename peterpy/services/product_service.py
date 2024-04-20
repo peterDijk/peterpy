@@ -10,8 +10,8 @@ class ProductService:
         self._repository = repository
 
     def add(self, name: str, price: float) -> Product:
-        if self._repository.find({"name": name}):
-            raise KeyError(f"Product with name {name} already exists")
+        if len(self._repository.find({"name": name})) > 0:
+            raise ValueError(f"Product with name {name} already exists")
 
         product = Product(name, price)
         logging.debug(f"Adding product {product}")
@@ -40,7 +40,10 @@ class ProductService:
         self._repository.remove(product)
 
     def get(self, id):
-        return self._repository.get(id)
+        product = self._repository.get(id)
+        if not product:
+            raise KeyError(f"Product with id {id} not found")
+        return product
 
     def find(self, query: Dict[str, str]):
         return self._repository.find(query)

@@ -16,6 +16,7 @@ product_repository = MemoryProductRepository()
 
 @routes.get("/list")
 async def list_products(request: Request) -> Response:
+    logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
     product_service = ProductService(product_repository)
@@ -31,12 +32,19 @@ async def list_products(request: Request) -> Response:
 
 @routes.get("/product/{id}")
 async def get_product(request: Request) -> Response:
-    logging.debug("---")
+    logging.debug("---------------------------------")
     logging.info("Get one product requested from %s", request.remote)
 
     product_service = ProductService(product_repository)
-    product_id = UUID(request.match_info["id"])
-    product = product_service.get(product_id)
+    try:
+        product_id = UUID(request.match_info["id"])
+    except ValueError:
+        return json_response(status=400, text=json.dumps({"error": "Invalid UUID"}))
+
+    try:
+        product = product_service.get(product_id)
+    except KeyError as e:
+        return json_response(status=404, text=json.dumps({"error": str(e)}))
 
     return json_response(
         status=200,
@@ -44,9 +52,9 @@ async def get_product(request: Request) -> Response:
     )
 
 
-@routes.post("/add")
+@routes.post("/product")
 async def add_product(request: Request) -> Response:
-    logging.debug("---")
+    logging.debug("---------------------------------")
     logging.info("Add product requested from %s", request.remote)
 
     data = await request.json()
@@ -54,9 +62,31 @@ async def add_product(request: Request) -> Response:
     price = data.get("price")
 
     product_service = ProductService(product_repository)
-    product = product_service.add(name, price)
+
+    try:
+        product = product_service.add(name, price)
+    except ValueError as e:
+        return json_response(status=400, text=json.dumps({"error": str(e)}))
 
     return json_response(
         status=201,
         text=json.dumps({"message": "Product added", "product_name": product.name}),
     )
+
+
+@routes.get("/")
+async def get_dashboard(request: Request) -> Response:
+    logging.debug("---------------------------------")
+    logging.info("Dashboard requested from %s", request.remote)
+
+    product_service = ProductService(product_repository)
+    products_count = product_service.count()
+    products = product_service.all()
+    products_total_value = sum([product.price for product in products])
+
+    output = {
+        "products_count": products_count,
+        "products_total_value": products_total_value,
+    }
+
+    return json_response(status=200, text=json.dumps({"dashboard": output}))
