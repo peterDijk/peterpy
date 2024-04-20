@@ -8,9 +8,9 @@
 
 - [x] setup service, health check endpoint
 - [x] setup logger using yaml config
-- [ ] add typing enforcing
-- [ ] organize routes
+- [x] organize routes
+- [x] add typing ~~enforcing~~ hinting only in python
 - [ ] dockerize
-- [ ] repository class, fake hardcoded data
+- [ ] implement repository pattern with in memory data
 - [ ] setup orm
 - [ ] ...

@@ -10,10 +10,10 @@ from aiohttp import web
 from peterpy.config import config, environment
 from peterpy import __version__
 
-logger = logging.getLogger(environment)
+from peterpy.handlers import health
 
 async def startup():
-   logger.info(f"Starting app - version {__version__} - environment {environment}")
+   logging.info(f"Starting app - version {__version__} - environment {environment}")
 
    #Web app
    http_app = web.Application()
@@ -29,7 +29,7 @@ async def startup():
    site = web.TCPSite(http_runner, host=http_host, port=http_port)
    await site.start()
    
-   logger.info("Starting web server, listening on %s:%s", http_host, http_port)
+   logging.info("Starting web server, listening on %s:%s", http_host, http_port)
    
    # Setup signal handlers for graceful shutdown
    for signal in (SIGTERM, SIGINT):
@@ -44,29 +44,35 @@ async def startup():
    # Sleep forever (until shutdowns called) to handle HTTP
    while True:
      await asyncio.sleep(3600)
-     
-def health_check(request):
-   return web.Response(text="OK")
+
 
 def setup_routes(app: web.Application):
-   app.router.add_get("/health", health_check)
-   app.router.add_get("/", health_check)
+   app.router.add_get("/health", health.instance_health)
+   app.router.add_get("/", health.instance_health)
    
 async def shutdown(http_runner: web.AppRunner):
    try:
-     logger.info("[SHUTDOWN] Shutting down due to signal")
+     logging.info("[SHUTDOWN] Shutting down due to signal")
 
-     logger.info("[SHUTDOWN] Shutting down HTTP stack")
+     logging.info("[SHUTDOWN] Shutting down HTTP stack")
      await http_runner.shutdown()
      await http_runner.cleanup()
-   #   sys.exit(EX_OK)
+     sys.exit(EX_OK)
    except Exception:  # pylint: disable=broad-exception-caught
       # never happens
-      logger.exception("Exception happened in signal handler!")
+      logging.exception("Exception happened in signal handler!")
 
 def main():
    logging.config.dictConfig(config)
-   logging.info("Starting up :)")
+   logging.info("Booting ... info")
+   logging.debug("Booting ... debug")
+   logging.info("Booting ... info")
+   logging.critical("Booting ... critical")
+   logging.error("Booting ... error")
+   logging.warning("Booting ... warning")
+   logging.exception("Booting ... exception")
+   logging.warning("Booting ... warning")
+   
    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
    asyncio.run(startup())
 
