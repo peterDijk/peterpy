@@ -1,0 +1,27 @@
+---
+version: "3.4"
+services:
+  peterpy:
+    container_name: peterpy
+    build:
+      context: ../peterpy
+      dockerfile: Dockerfile
+    command: poetry run peterpy
+    restart: always
+    ports:
+      - "9096:8080"
+    volumes:
+      - ../peterpy/peterpy/:/app/peterpy
+      - ../peterpy/pyproject.toml:/app/pyproject.toml
+      - ../peterpy/poetry.lock:/app/poetry.lock
+      - ../peterpy/.venv:/app/.venv
+      - ../peterpy/config.yaml:/app/config.yaml
+      - ../peterpy/pylintrc:/app/pylintrc
+    environment:
+      - APP_ENV=development
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
