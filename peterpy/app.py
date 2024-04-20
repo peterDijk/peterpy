@@ -7,7 +7,6 @@ from signal import SIGINT, SIGTERM
 
 import uvloop
 from aiohttp import web
-
 from peterpy import __version__
 from peterpy.config import config, environment
 from peterpy.handlers import health, products
@@ -46,6 +45,7 @@ def setup_routes(app: web.Application):
     app.router.add_get("/health", health.instance_health)
     app.router.add_get("/", health.instance_health)
     app.router.add_get("/list", products.list_products)
+    app.router.add_post("/add", products.add_product)
 
 
 async def shutdown(http_runner: web.AppRunner):

@@ -1,4 +1,5 @@
 from uuid import UUID
+import uuid
 
 
 class Product:
@@ -7,7 +8,7 @@ class Product:
     price: float
 
     def __init__(self, name: str, price: float):
-        self.id = UUID()
+        self.id = uuid.uuid4()
         self.name = name
         self.price = price
 

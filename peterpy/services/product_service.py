@@ -1,3 +1,4 @@
+import logging
 from typing import Dict
 
 from peterpy.entities import Product
@@ -8,9 +9,12 @@ class ProductService:
     def __init__(self, repository: IRepository[Product]):
         self._repository = repository
 
-    def add(self, name: str, price: float):
+    def add(self, name: str, price: float) -> Product:
         product = Product(name, price)
+        logging.debug(f"Adding product {product}")
         self._repository.add(product)
+
+        return product
 
     def update(self, id, name, price):
         product = self._repository.get(id)
