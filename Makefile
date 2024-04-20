@@ -9,5 +9,6 @@ format:
 lint:
 	poetry run isort --check .
 	poetry run black --check .
-	poetry run pylint peterpy
+	poetry run bandit -r peterpy
 	poetry run mypy --no-strict-optional --ignore-missing-imports peterpy
+	poetry run pylint peterpy
