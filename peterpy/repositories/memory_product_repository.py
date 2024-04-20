@@ -1,8 +1,11 @@
+import logging
 from typing import Dict
 from uuid import UUID
 
+
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
+from peterpy.libs import match
 
 
 class MemoryProductRepository(IRepository[Product]):
@@ -23,8 +26,12 @@ class MemoryProductRepository(IRepository[Product]):
     def remove(self, obj: Product) -> None:
         del self.items[obj.id]
 
-    def find(self, query: Dict[str, Product]) -> list:
-        return [product for product in self.items.values() if product.name in query]
+    def find(self, query: Dict[str, str]) -> list:
+        results = [product for product in self.items.values() if match(product, query)]
+
+        logging.debug(f"Found {len(results)} products with query {query}")
+
+        return results
 
     def find_one(self, id: UUID) -> Product:
         return self.items[id]

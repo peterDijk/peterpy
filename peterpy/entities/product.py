@@ -1,6 +1,8 @@
+import logging
 import json
 import uuid
 from uuid import UUID
+from typing import Dict
 
 
 class Product:
@@ -28,6 +30,17 @@ class Product:
             "name": self.name,
             "price": self.price,
         }
+
+    def match(self, query: Dict[str, str]):
+        for key, value in query.items():
+            logging.debug(f"Searching for {value} in {key}")
+
+            attr = getattr(self, key)
+            if attr != value:
+                return False
+
+            logging.debug(f"Found {attr} in {key}")
+        return True
 
 
 class ProductEncoder(json.JSONEncoder):

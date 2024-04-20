@@ -10,6 +10,9 @@ class ProductService:
         self._repository = repository
 
     def add(self, name: str, price: float) -> Product:
+        if self._repository.find({"name": name}):
+            raise KeyError(f"Product with name {name} already exists")
+
         product = Product(name, price)
         logging.debug(f"Adding product {product}")
         self._repository.add(product)
@@ -39,7 +42,7 @@ class ProductService:
     def get(self, id):
         return self._repository.get(id)
 
-    def find(self, query: Dict[str, Product]):
+    def find(self, query: Dict[str, str]):
         return self._repository.find(query)
 
     def find_one(self, id):

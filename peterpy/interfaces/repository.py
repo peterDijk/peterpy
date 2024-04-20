@@ -25,7 +25,7 @@ class IRepository(Generic[T]):  # ABC need the commit etc methods
         raise NotImplementedError
 
     @abstractmethod
-    def find(self, query: Dict[str, T]) -> List[T]:
+    def find(self, query: Dict[str, str]) -> List[T]:
         raise NotImplementedError
 
     @abstractmethod

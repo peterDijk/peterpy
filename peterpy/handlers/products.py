@@ -31,6 +31,7 @@ async def list_products(request: Request) -> Response:
 
 @routes.get("/product/{id}")
 async def get_product(request: Request) -> Response:
+    logging.debug("---")
     logging.info("Get one product requested from %s", request.remote)
 
     product_service = ProductService(product_repository)
@@ -45,6 +46,7 @@ async def get_product(request: Request) -> Response:
 
 @routes.post("/add")
 async def add_product(request: Request) -> Response:
+    logging.debug("---")
     logging.info("Add product requested from %s", request.remote)
 
     data = await request.json()
