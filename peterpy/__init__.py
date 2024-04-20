@@ -10,6 +10,4 @@ except PackageNotFoundError:
     from tomlkit import load
 
     with open("pyproject.toml", "rb") as pyproject_f:
-        __version__ = (
-            load(pyproject_f)["tool"]["poetry"]["version"]  # type: ignore
-        )
+        __version__ = load(pyproject_f)["tool"]["poetry"]["version"]  # type: ignore
