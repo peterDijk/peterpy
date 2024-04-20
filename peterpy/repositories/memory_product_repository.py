@@ -2,7 +2,6 @@ import logging
 from typing import Dict
 from uuid import UUID
 
-
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
 from peterpy.libs import match

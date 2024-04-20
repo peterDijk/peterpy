@@ -130,5 +130,181 @@
   {
     "name": "Cantaloupe",
     "price": 3.6
+  },
+  {
+    "name": "Honeydew",
+    "price": 3.7
+  },
+  {
+    "name": "Mandarin",
+    "price": 3.8
+  },
+  {
+    "name": "Tangerine",
+    "price": 3.9
+  },
+  {
+    "name": "Nectarine",
+    "price": 4.0
+  },
+  {
+    "name": "Grapefruit",
+    "price": 4.1
+  },
+  {
+    "name": "Clementine",
+    "price": 4.2
+  },
+  {
+    "name": "Persimmon",
+    "price": 4.3
+  },
+  {
+    "name": "Rambutan",
+    "price": 4.4
+  },
+  {
+    "name": "Longan",
+    "price": 4.5
+  },
+  {
+    "name": "Kumquat",
+    "price": 4.6
+  },
+  {
+    "name": "Pitaya",
+    "price": 4.7
+  },
+  {
+    "name": "Pawpaw",
+    "price": 4.8
+  },
+  {
+    "name": "Soursop",
+    "price": 4.9
+  },
+  {
+    "name": "Cherimoya",
+    "price": 5.0
+  },
+  {
+    "name": "Sapodilla",
+    "price": 5.1
+  },
+  {
+    "name": "Tamarillo",
+    "price": 5.2
+  },
+  {
+    "name": "Feijoa",
+    "price": 5.3
+  },
+  {
+    "name": "Pepino",
+    "price": 5.4
+  },
+  {
+    "name": "Ugli Fruit",
+    "price": 5.5
+  },
+  {
+    "name": "Yuzu",
+    "price": 5.6
+  },
+  {
+    "name": "Pomelo",
+    "price": 5.7
+  },
+  {
+    "name": "Mamey",
+    "price": 5.8
+  },
+  {
+    "name": "Papaya",
+    "price": 5.9
+  },
+  {
+    "name": "Acerola",
+    "price": 6.0
+  },
+  {
+    "name": "Barbados Cherry",
+    "price": 6.1
+  },
+  {
+    "name": "Bilimbi",
+    "price": 6.2
+  },
+  {
+    "name": "Black Sapote",
+    "price": 6.3
+  },
+  {
+    "name": "Breadfruit",
+    "price": 6.4
+  },
+  {
+    "name": "Buddha's Hand",
+    "price": 6.5
+  },
+  {
+    "name": "Calamondin",
+    "price": 6.6
+  },
+  {
+    "name": "Canistel",
+    "price": 6.7
+  },
+  {
+    "name": "Cempedak",
+    "price": 6.8
+  },
+  {
+    "name": "Chayote",
+    "price": 6.9
+  },
+  {
+    "name": "Cupuacu",
+    "price": 7.0
+  },
+  {
+    "name": "Damson",
+    "price": 7.1
+  },
+  {
+    "name": "Date",
+    "price": 7.2
+  },
+  {
+    "name": "Duku",
+    "price": 7.3
+  },
+  {
+    "name": "Feijoa",
+    "price": 7.4
+  },
+  {
+    "name": "Finger Lime",
+    "price": 7.5
+  },
+  {
+    "name": "Gac",
+    "price": 7.6
+  },
+  {
+    "name": "Galia Melon",
+    "price": 7.7
+  },
+  {
+    "name": "Genip",
+    "price": 7.8
+  },
+  {
+    "name": "Horned Melon",
+    "price": 7.9
+  },
+  {
+    "name": "Jabuticaba",
+    "price": 8.0
   }
 ]

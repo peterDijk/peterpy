@@ -1,8 +1,8 @@
-import logging
 import json
+import logging
 import uuid
-from uuid import UUID
 from typing import Dict
+from uuid import UUID
 
 
 class Product:

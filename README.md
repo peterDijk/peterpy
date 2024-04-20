@@ -15,16 +15,16 @@ A project to practice the language, design patterns and best practices
 - [x] organize routes
 - [x] add typing ~~enforcing~~ hinting only in python
 - [x] dev tooling, lint formatting etc
-- [x] implement repository pattern with in memory data
+- [x] implement Repository Pattern with in memory data
 - [x] implement service
 - [x] add product to global repository
 - [x] add entity encode with to_json method, pass in response
 - [x] can't create product same name
 - [x] catch not found error, proper response
 - [x] setup Postman with automation for list of product creation
-- [ ] implement Abstract Base Class ?
-- [ ] add test-tooling and unit tests
+- [x] implement Abstract Base Class
 - [ ] dockerize
+- [ ] add test-tooling and unit tests
 - [ ] setup orm, connect database (new repository)
 - [ ] implement DDD
 - [ ] ...

@@ -1,11 +1,12 @@
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from typing import Dict, Generic, List, TypeVar
 from uuid import UUID
 
 T = TypeVar("T")
 
 
-class IRepository(Generic[T]):  # ABC need the commit etc methods
+# class IRepository(Generic[T], metaclass=ABCMeta):
+class IRepository(ABC, Generic[T]):
     items: Dict[UUID, T]
 
     @abstractmethod
