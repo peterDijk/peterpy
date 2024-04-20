@@ -7,6 +7,7 @@ from signal import SIGINT, SIGTERM
 
 import uvloop
 from aiohttp import web
+
 from peterpy import __version__
 from peterpy.config import config, environment
 from peterpy.handlers import health, products

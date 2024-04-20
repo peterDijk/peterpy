@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, TypeVar, Generic
+from typing import Dict, Generic, List, TypeVar
 from uuid import UUID
 
 T = TypeVar("T")

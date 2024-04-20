@@ -1,6 +1,6 @@
-from uuid import UUID
-import uuid
 import json
+import uuid
+from uuid import UUID
 
 
 class Product:

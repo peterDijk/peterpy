@@ -1,12 +1,12 @@
-import logging
 import json
+import logging
 
 from aiohttp.web import Request, Response, json_response
 
 from peterpy import routes
+from peterpy.entities import ProductEncoder
 from peterpy.repositories import MemoryProductRepository
 from peterpy.services import ProductService
-from peterpy.entities import ProductEncoder
 
 product_repository = MemoryProductRepository()
 
