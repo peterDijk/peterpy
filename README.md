@@ -15,7 +15,11 @@
 - [x] implement service
 - [x] add product to global repository
 - [x] add entity encode with to_json method, pass in response
+- [ ] catch not found error, proper response
+- [ ] setup Postman with automation for list of product creation
+- [ ] implement Abstract Base Class ?
 - [ ] add test-tooling and unit tests
 - [ ] dockerize
 - [ ] setup orm
+- [ ] implement DDD
 - [ ] ...

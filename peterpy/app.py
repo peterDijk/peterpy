@@ -46,6 +46,7 @@ def setup_routes(app: web.Application):
     app.router.add_get("/health", health.instance_health)
     app.router.add_get("/", health.instance_health)
     app.router.add_get("/list", products.list_products)
+    app.router.add_get("/product/{id}", products.get_product)
     app.router.add_post("/add", products.add_product)
 
 
