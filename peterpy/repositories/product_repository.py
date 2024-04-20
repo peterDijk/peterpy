@@ -5,9 +5,7 @@ from peterpy.entities import Product
 from peterpy.interfaces import IRepository
 
 
-class MemoryProductRepository(IRepository):
-    items: Dict[UUID, Product]
-
+class MemoryProductRepository(IRepository[Product]):
     def __init__(self):
         self.items = {}
 
