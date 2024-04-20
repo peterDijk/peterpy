@@ -1,0 +1,134 @@
+[
+  {
+    "name": "Orange",
+    "price": 0.5
+  },
+  {
+    "name": "Apple",
+    "price": 0.6
+  },
+  {
+    "name": "Banana",
+    "price": 0.4
+  },
+  {
+    "name": "Papaya",
+    "price": 0.7
+  },
+  {
+    "name": "Grapes",
+    "price": 0.8
+  },
+  {
+    "name": "Mango",
+    "price": 0.9
+  },
+  {
+    "name": "Pineapple",
+    "price": 1.0
+  },
+  {
+    "name": "Watermelon",
+    "price": 1.1
+  },
+  {
+    "name": "Strawberry",
+    "price": 1.2
+  },
+  {
+    "name": "Blueberry",
+    "price": 1.3
+  },
+  {
+    "name": "Raspberry",
+    "price": 1.4
+  },
+  {
+    "name": "Blackberry",
+    "price": 1.5
+  },
+  {
+    "name": "Cherry",
+    "price": 1.6
+  },
+  {
+    "name": "Peach",
+    "price": 1.7
+  },
+  {
+    "name": "Plum",
+    "price": 1.8
+  },
+  {
+    "name": "Apricot",
+    "price": 1.9
+  },
+  {
+    "name": "Kiwi",
+    "price": 2.0
+  },
+  {
+    "name": "Pomegranate",
+    "price": 2.1
+  },
+  {
+    "name": "Cranberry",
+    "price": 2.2
+  },
+  {
+    "name": "Gooseberry",
+    "price": 2.3
+  },
+  {
+    "name": "Lemon",
+    "price": 2.4
+  },
+  {
+    "name": "Lime",
+    "price": 2.5
+  },
+  {
+    "name": "Coconut",
+    "price": 2.6
+  },
+  {
+    "name": "Guava",
+    "price": 2.7
+  },
+  {
+    "name": "Lychee",
+    "price": 2.8
+  },
+  {
+    "name": "Passion Fruit",
+    "price": 2.9
+  },
+  {
+    "name": "Dragon Fruit",
+    "price": 3.0
+  },
+  {
+    "name": "Mangosteen",
+    "price": 3.1
+  },
+  {
+    "name": "Durian",
+    "price": 3.2
+  },
+  {
+    "name": "Jackfruit",
+    "price": 3.3
+  },
+  {
+    "name": "Starfruit",
+    "price": 3.4
+  },
+  {
+    "name": "Acai Berry",
+    "price": 3.5
+  },
+  {
+    "name": "Cantaloupe",
+    "price": 3.6
+  }
+]

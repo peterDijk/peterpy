@@ -17,10 +17,10 @@
 - [x] add entity encode with to_json method, pass in response
 - [x] can't create product same name
 - [x] catch not found error, proper response
-- [ ] setup Postman with automation for list of product creation
+- [x] setup Postman with automation for list of product creation
 - [ ] implement Abstract Base Class ?
 - [ ] add test-tooling and unit tests
 - [ ] dockerize
-- [ ] setup orm
+- [ ] setup orm, connect database (new repository)
 - [ ] implement DDD
 - [ ] ...
