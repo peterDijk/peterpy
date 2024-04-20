@@ -16,4 +16,3 @@
 - [ ] add test tooling and unit tests
 - [ ] dockerize
 - [ ] setup orm
-- [ ] ...
