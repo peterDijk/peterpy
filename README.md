@@ -1,3 +1,7 @@
+## PeterPy
+
+A project to practice the language, design patterns and best practices
+
 ### Prerequisits:
 
 - install poetry
