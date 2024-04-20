@@ -10,7 +10,10 @@
 - [x] setup logger using yaml config
 - [x] organize routes
 - [x] add typing ~~enforcing~~ hinting only in python
-- [ ] dockerize
+- [x] dev tooling, lint formatting etc
 - [ ] implement repository pattern with in memory data
+- [ ] implement service
+- [ ] add test tooling and unit tests
+- [ ] dockerize
 - [ ] setup orm
 - [ ] ...

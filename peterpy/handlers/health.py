@@ -1,17 +1,16 @@
-from textwrap import dedent
-from uuid import UUID
-
 import logging
+from textwrap import dedent
 
 from aiohttp.web import Request, Response
 
 from peterpy import __version__, routes
 
+
 # pylint: disable=unused-argument
 @routes.get("/health")
 async def instance_health(request: Request) -> Response:
-    logging.info(f"Health check requested from {request.remote}")
-    
+    logging.info("Health check requested from %s", request.remote)
+
     output = dedent(
         """
         # HELP health_instance Instance health
