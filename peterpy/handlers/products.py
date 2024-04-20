@@ -6,6 +6,7 @@ from aiohttp.web import Request, Response, json_response
 from peterpy import routes
 from peterpy.repositories import MemoryProductRepository
 from peterpy.services import ProductService
+from peterpy.entities import ProductEncoder
 
 product_repository = MemoryProductRepository()
 
@@ -18,7 +19,9 @@ async def list_products(request: Request) -> Response:
     products = product_service.all()
     products_count = product_service.count()
 
-    product_json = json.dumps({"products": products, "count": products_count})
+    product_json = json.dumps(
+        {"products": products, "count": products_count}, cls=ProductEncoder
+    )
 
     return json_response(status=200, text=product_json)
 
