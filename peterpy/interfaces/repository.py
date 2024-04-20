@@ -5,7 +5,7 @@ from uuid import UUID
 T = TypeVar("T")
 
 
-class IRepository(ABC, Generic[T]):
+class IRepository(Generic[T]):  # ABC need the commit etc methods
     items: Dict[UUID, T]
 
     @abstractmethod
@@ -44,27 +44,27 @@ class IRepository(ABC, Generic[T]):
     def clear(self) -> None:
         pass
 
-    @abstractmethod
-    # find out how to implement this
-    def commit(self) -> None:
-        pass
+    # @abstractmethod
+    # # find out how to implement this
+    # def commit(self) -> None:
+    #     pass
 
-    @abstractmethod
-    # find out how to implement this
-    def rollback(self) -> None:
-        pass
+    # @abstractmethod
+    # # find out how to implement this
+    # def rollback(self) -> None:
+    #     pass
 
-    @abstractmethod
-    # find out how to implement this
-    def close(self) -> None:
-        pass
+    # @abstractmethod
+    # # find out how to implement this
+    # def close(self) -> None:
+    #     pass
 
-    @abstractmethod
-    # find out what these should do
-    def __enter__(self) -> "IRepository":
-        pass
+    # @abstractmethod
+    # # find out what these should do
+    # def __enter__(self) -> "IRepository":
+    #     pass
 
-    @abstractmethod
-    # find out what these should do
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
-        pass
+    # @abstractmethod
+    # # find out what these should do
+    # def __exit__(self, exc_type, exc_value, traceback) -> None:
+    #     pass

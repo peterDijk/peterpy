@@ -1,1 +1,1 @@
-from peterpy.repositories.product_repository import MemoryProductRepository
+from peterpy.repositories.memory_product_repository import MemoryProductRepository
