@@ -12,10 +12,13 @@ ENV POETRY_NO_INTERACTION=1 \
 # WORKDIR /app
 
 COPY pyproject.toml poetry.lock config.yaml README.md ./
-COPY peterpy ./peterpy
 
 RUN poetry config virtualenvs.create false --local
 RUN poetry install --without dev && rm -rf $POETRY_CACHE_DIR
+
+COPY peterpy ./peterpy
+
+RUN poetry install --without dev
 
 # Run Application
 # CMD [ "poetry", "run", "python", "-m", "peterpy" ]
