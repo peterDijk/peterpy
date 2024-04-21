@@ -10,6 +10,15 @@ A project to practice the language, design patterns and best practices
 
 `$ poetry run peterpy`
 
+### Run with Docker
+
+`$ docker compose up -d`
+
+### To use auto restarts during development
+
+`$ docker compose watch` keep terminal open
+`$ docker compose logs -f` in another terminal
+
 - [x] setup service, health check endpoint
 - [x] setup logger using yaml config
 - [x] organize routes
@@ -24,7 +33,7 @@ A project to practice the language, design patterns and best practices
 - [x] setup Postman with automation for list of product creation
 - [x] implement Abstract Base Class
 - [x] dockerize
-- [ ] add app restart mechanism on code change (also within docker container)
+- [x] add app restart mechanism on code change (also within docker container)
 - [ ] add database container to docker setup
 - [ ] setup orm, connect database (new repository)
 - [ ] add test-tooling and unit tests

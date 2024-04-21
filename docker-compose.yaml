@@ -8,6 +8,13 @@ services:
       dockerfile: Dockerfile
     command: poetry run peterpy
     restart: always
+    develop:
+      watch:
+        - action: rebuild
+          path: ./peterpy
+          target: /app/peterpy
+        - action: rebuild
+          path: config.yaml
     ports:
       - "9096:8080"
     environment:
