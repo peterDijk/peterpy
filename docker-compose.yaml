@@ -10,12 +10,6 @@ services:
     restart: always
     ports:
       - "9096:8080"
-    volumes:
-      - ../peterpy/peterpy/:/app/peterpy/
-      - ../peterpy/pyproject.toml:/app/pyproject.toml
-      - ../peterpy/poetry.lock:/app/poetry.lock
-      - ../peterpy/.venv:/app/.venv
-      - ../peterpy/config.yaml:/app/config.yaml
     environment:
       - APP_ENV=development
     networks:
