@@ -23,6 +23,7 @@ ENV VIRTUAL_ENV=/app/.venv \
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY peterpy ./peterpy
+COPY pyproject.toml config.yaml ./
 
 # Run Application
 ENTRYPOINT [ "python", "-m", "peterpy.app" ]
