@@ -10,7 +10,7 @@ services:
     restart: always
     develop:
       watch:
-        - action: sync
+        - action: rebuild
           path: ./peterpy
           target: /app/peterpy
         - action: rebuild
