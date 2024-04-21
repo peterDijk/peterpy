@@ -10,7 +10,7 @@ from aiohttp import web
 
 from peterpy import __version__
 from peterpy.config import config, environment
-from peterpy.handlers import health
+from peterpy.handlers import health, products
 
 
 async def startup():
@@ -44,7 +44,10 @@ async def startup():
 
 def setup_routes(app: web.Application):
     app.router.add_get("/health", health.instance_health)
-    app.router.add_get("/", health.instance_health)
+    app.router.add_get("/", products.get_dashboard)
+    app.router.add_get("/product/list", products.list_products)
+    app.router.add_get("/product/{id}", products.get_product)
+    app.router.add_post("/product", products.add_product)
 
 
 async def shutdown(http_runner: web.AppRunner):
@@ -62,14 +65,7 @@ async def shutdown(http_runner: web.AppRunner):
 
 def main():
     logging.config.dictConfig(config)
-    logging.info("Booting ... info")
-    logging.debug("Booting ... debug")
-    logging.info("Booting ... info")
-    logging.critical("Booting ... critical")
-    logging.error("Booting ... error")
-    logging.warning("Booting ... warning")
-    logging.exception("Booting ... exception")
-    logging.warning("Booting ... warning")
+    logging.info("Booting ...")
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(startup())

@@ -1,0 +1,1 @@
+from peterpy.repositories.memory_product_repository import MemoryProductRepository
