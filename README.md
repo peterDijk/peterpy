@@ -24,7 +24,7 @@ A project to practice the language, design patterns and best practices
 - [x] setup Postman with automation for list of product creation
 - [x] implement Abstract Base Class
 - [ ] dockerize
-- [ ] add test-tooling and unit tests
 - [ ] setup orm, connect database (new repository)
+- [ ] add test-tooling and unit tests
 - [ ] implement DDD
 - [ ] ...
