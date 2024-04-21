@@ -12,12 +12,18 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock config.yaml README.md ./
 
-RUN poetry config virtualenvs.create false --local
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
-COPY peterpy ./peterpy
+# The runtime image, used to just run the code provided its virtual environment
+FROM python:3.12-slim-bullseye as runtime
 
-RUN poetry install --without dev
+ENV VIRTUAL_ENV=/app/.venv \
+  PATH="/app/.venv/bin:$PATH"
+
+COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+
+COPY peterpy ./peterpy
+COPY pyproject.toml config.yaml ./
 
 # Run Application
-ENTRYPOINT [ "poetry", "run", "python", "-m", "peterpy.app" ]
+ENTRYPOINT [ "python", "-m", "peterpy.app" ]
