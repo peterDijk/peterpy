@@ -13,7 +13,6 @@ async def instance_health(request: Request) -> Response:
 
     output = dedent(
         """
-        change
         # HELP health_instance Instance health
         # TYPE health_instance gauge
         # PETERPY_VERSION: {version}
