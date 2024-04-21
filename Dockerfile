@@ -13,3 +13,4 @@ RUN poetry install --without dev
 
 # Run Application
 CMD [ "poetry", "run", "python", "-m", "peterpy" ]
+# ENTRYPOINT ["poetry", "run", "python", "-m", "peterpy"]
