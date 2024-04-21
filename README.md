@@ -24,6 +24,7 @@ A project to practice the language, design patterns and best practices
 - [x] setup Postman with automation for list of product creation
 - [x] implement Abstract Base Class
 - [x] dockerize
+- [ ] add app restart mechanism on code change (also within docker container)
 - [ ] add database container to docker setup
 - [ ] setup orm, connect database (new repository)
 - [ ] add test-tooling and unit tests
