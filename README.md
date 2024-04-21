@@ -23,7 +23,7 @@ A project to practice the language, design patterns and best practices
 - [x] catch not found error, proper response
 - [x] setup Postman with automation for list of product creation
 - [x] implement Abstract Base Class
-- [ ] dockerize
+- [x] dockerize
 - [ ] setup orm, connect database (new repository)
 - [ ] add test-tooling and unit tests
 - [ ] implement DDD
