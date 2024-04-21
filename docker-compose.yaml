@@ -22,6 +22,27 @@ services:
     networks:
       - backend
 
+  mysql:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: peterpy
+      MYSQL_TCP_PORT: 3306
+    networks:
+      - backend
+    ports:
+      - 3306:3306
+    volumes:
+      - type: volume
+        source: peterpy-volume-data
+        target: /var/lib/peterpy
+
 networks:
   backend:
     driver: bridge
+
+volumes:
+  peterpy-volume-data:

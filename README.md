@@ -34,7 +34,7 @@ A project to practice the language, design patterns and best practices
 - [x] implement Abstract Base Class
 - [x] dockerize
 - [x] add app restart mechanism on code change (also within docker container)
-- [ ] add database container to docker setup
+- [x] add database container to docker setup
 - [ ] setup orm, connect database (new repository)
 - [ ] add test-tooling and unit tests
 - [ ] implement DDD

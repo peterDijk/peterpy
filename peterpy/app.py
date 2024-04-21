@@ -12,6 +12,10 @@ from peterpy import __version__
 from peterpy.config import config, environment
 from peterpy.handlers import health, products
 
+# from peterpy.database.connection import engine
+
+# from sqlalchemy import text
+
 
 async def startup():
     logging.info("Starting app - version %s - environment %s", __version__, environment)
@@ -65,7 +69,11 @@ async def shutdown(http_runner: web.AppRunner):
 
 def main():
     logging.config.dictConfig(config)
-    logging.info("Booting ...")
+    logging.info("Booting ....")
+
+    # with engine.connect() as connection:
+    #     connection.execute(text("CREATE TABLE ok_dan (id INTEGER, name VARCHAR(20))"))
+    #     connection.commit()
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(startup())
