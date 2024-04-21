@@ -3,6 +3,7 @@ FROM python:3.12 as python-base
 
 RUN pip install poetry==1.8.2
 
+# break when enabling this
 # WORKDIR /app
 
 COPY pyproject.toml poetry.lock config.yaml README.md ./
@@ -12,5 +13,4 @@ RUN poetry config virtualenvs.create false --local
 RUN poetry install --without dev
 
 # Run Application
-CMD [ "poetry", "run", "python", "-m", "peterpy" ]
-# ENTRYPOINT ["poetry", "run", "python", "-m", "peterpy"]
+# CMD [ "poetry", "run", "python", "-m", "peterpy" ]
