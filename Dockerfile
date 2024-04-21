@@ -20,7 +20,7 @@ COPY --chown=root:root ./README.md /app/README.md
 # Pre-fill venv
 RUN poetry install --no-root --without dev
 
-RUN poetry build
+# RUN poetry build
 
 # COPY . .
 

@@ -11,7 +11,7 @@ services:
     ports:
       - "9096:8080"
     volumes:
-      - ../peterpy/peterpy/:/app/peterpy
+      - ../peterpy/peterpy/:/app/peterpy/
       - ../peterpy/pyproject.toml:/app/pyproject.toml
       - ../peterpy/poetry.lock:/app/poetry.lock
       - ../peterpy/.venv:/app/.venv
