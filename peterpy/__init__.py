@@ -5,7 +5,7 @@ from aiohttp.web import RouteTableDef
 routes = RouteTableDef()
 
 try:
-    __version__ = version("antivirus-rest-svc")
+    __version__ = version("peterpy")
 except PackageNotFoundError:
     from tomlkit import load
 
