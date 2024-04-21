@@ -9,7 +9,7 @@ ENV POETRY_NO_INTERACTION=1 \
   POETRY_CACHE_DIR=/tmp/poetry_cache
 
 # break when enabling this
-# WORKDIR /app
+WORKDIR /app
 
 COPY pyproject.toml poetry.lock config.yaml README.md ./
 
@@ -21,4 +21,4 @@ COPY peterpy ./peterpy
 RUN poetry install --without dev
 
 # Run Application
-# CMD [ "poetry", "run", "python", "-m", "peterpy" ]
+CMD [ "poetry", "run", "python", "-m", "peterpy" ]
