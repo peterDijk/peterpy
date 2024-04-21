@@ -1,5 +1,5 @@
 # https://medium.com/@albertazzir/blazing-fast-python-docker-builds-with-poetry-a78a66f5aed0
-FROM python:3.12 as python-base
+FROM python:3.12-bullseye as builder
 
 RUN pip install poetry==1.8.2
 
