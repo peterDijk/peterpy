@@ -81,7 +81,8 @@ async def get_dashboard(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
-    product_service = ProductService(memory_product_repository)
+    database_product_repository = DatabaseProductRepository()
+    product_service = ProductService(database_product_repository)
     products_count = product_service.count()
     products = product_service.all()
     products_total_value = sum([product.price for product in products])

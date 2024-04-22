@@ -1,8 +1,8 @@
 import logging
-from typing import Dict
+from typing import Dict, List
 from uuid import UUID
 
-from peterpy.entities import Product
+from peterpy.entities import Product as ProductEntity
 from peterpy.interfaces import IRepository
 from peterpy.libs import match
 
@@ -19,27 +19,37 @@ from peterpy.database.data_mapper import (
 from peterpy.database.models.product import Product as ProductModel
 
 
-class DatabaseProductRepository(IRepository[Product]):
-    def get(self, id: UUID) -> Product:
+class DatabaseProductRepository(IRepository[ProductEntity]):
+    def get(self, id: UUID) -> ProductEntity:
         raise NotImplementedError
 
-    def add(self, obj: Product) -> None:
+    def add(self, obj: ProductEntity) -> None:
         instance = product_entity_to_model(obj)
         with Session(engine) as session:
             session.add(instance)
             session.commit()
 
-    def update(self, obj: Product) -> None:
+    def update(self, obj: ProductEntity) -> None:
         raise NotImplementedError
 
-    def remove(self, obj: Product) -> None:
+    def remove(self, obj: ProductEntity) -> None:
         raise NotImplementedError
 
     def find(self, query: Dict[str, str]) -> list:
-        return []
-        # raise NotImplementedError
+        items: List[ProductEntity] = []
 
-    def find_one(self, id: UUID) -> Product:
+        for key, value in query.items():
+            with Session(engine) as session:
+                stmt = select(ProductModel).filter(getattr(ProductModel, key) == value)
+                results = [
+                    product_model_to_entity(product[0])
+                    for product in session.execute(stmt)
+                ]
+                items.extend(results)
+
+        return items
+
+    def find_one(self, id: UUID) -> ProductEntity:
         raise NotImplementedError
 
     def all(self) -> list:
