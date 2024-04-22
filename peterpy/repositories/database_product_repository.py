@@ -21,7 +21,13 @@ from peterpy.database.models.product import Product as ProductModel
 
 class DatabaseProductRepository(IRepository[ProductEntity]):
     def get(self, id: UUID) -> ProductEntity:
-        raise NotImplementedError
+        with Session(engine) as session:
+            sql_statement = select(ProductModel).filter(ProductModel.id == id)
+            product = session.execute(sql_statement).scalar_one_or_none()
+            if product:
+                return product_model_to_entity(product)
+
+            raise KeyError(f"Product with id {id} not found")
 
     def add(self, obj: ProductEntity) -> None:
         instance = product_entity_to_model(obj)
@@ -40,10 +46,12 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
         for key, value in query.items():
             with Session(engine) as session:
-                stmt = select(ProductModel).filter(getattr(ProductModel, key) == value)
+                sql_statement = select(ProductModel).filter(
+                    getattr(ProductModel, key) == value
+                )
                 results = [
                     product_model_to_entity(product[0])
-                    for product in session.execute(stmt)
+                    for product in session.execute(sql_statement)
                 ]
                 items.extend(results)
 
