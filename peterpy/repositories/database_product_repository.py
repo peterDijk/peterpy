@@ -9,6 +9,12 @@ from peterpy.libs import match
 from peterpy.database.connection import engine
 
 from sqlalchemy import text
+from sqlalchemy.orm import Session
+
+from peterpy.database.data_mapper import (
+    product_model_to_entity,
+    product_entity_to_model,
+)
 
 
 class DatabaseProductRepository(IRepository[Product]):
@@ -16,16 +22,10 @@ class DatabaseProductRepository(IRepository[Product]):
         raise NotImplementedError
 
     def add(self, obj: Product) -> None:
-        with engine.connect() as connection:
-            connection.execute(
-                text("INSERT INTO example (name) VALUES (:name)"), {"name": obj.name}
-            )
-            # connection.execute(
-            #     text("INSERT INTO example (name) VALUES (:name)"),
-            #     [{"name": "Barry"}, {"name": "Christina"}],
-            # )
-            connection.commit()
-        # self.items[obj.id] = obj
+        instance = product_entity_to_model(obj)
+        with Session(engine) as session:
+            session.add(instance)
+            session.commit()
 
     def update(self, obj: Product) -> None:
         raise NotImplementedError
@@ -34,7 +34,8 @@ class DatabaseProductRepository(IRepository[Product]):
         raise NotImplementedError
 
     def find(self, query: Dict[str, str]) -> list:
-        raise NotImplementedError
+        return []
+        # raise NotImplementedError
 
     def find_one(self, id: UUID) -> Product:
         raise NotImplementedError
