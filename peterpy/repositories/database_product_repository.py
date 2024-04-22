@@ -8,13 +8,15 @@ from peterpy.libs import match
 
 from peterpy.database.connection import engine
 
-from sqlalchemy import text
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from peterpy.database.data_mapper import (
     product_model_to_entity,
     product_entity_to_model,
 )
+
+from peterpy.database.models.product import Product as ProductModel
 
 
 class DatabaseProductRepository(IRepository[Product]):
@@ -41,10 +43,18 @@ class DatabaseProductRepository(IRepository[Product]):
         raise NotImplementedError
 
     def all(self) -> list:
-        raise NotImplementedError
+        with Session(engine) as session:
+            stmt = select(ProductModel).order_by(ProductModel.id)
+            return [
+                product_model_to_entity(product[0]) for product in session.execute(stmt)
+            ]
 
     def count(self) -> int:
-        raise NotImplementedError
+        with Session(engine) as session:
+            stmt = select(ProductModel).order_by(ProductModel.id)
+            return [
+                product_model_to_entity(product[0]) for product in session.execute(stmt)
+            ].__len__()
 
     def clear(self) -> None:
         raise NotImplementedError

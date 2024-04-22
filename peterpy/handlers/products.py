@@ -19,7 +19,8 @@ async def list_products(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
-    product_service = ProductService(memory_product_repository)
+    database_product_repository = DatabaseProductRepository()
+    product_service = ProductService(database_product_repository)
     products = product_service.all()
     products_count = product_service.count()
 
