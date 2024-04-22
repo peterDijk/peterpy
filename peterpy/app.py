@@ -15,8 +15,6 @@ from peterpy.handlers import health, products
 from peterpy.database.connection import engine
 from peterpy.database.models import Product
 
-# from sqlalchemy import text
-
 
 async def startup():
     logging.info("Starting app - version %s - environment %s", __version__, environment)
@@ -72,10 +70,7 @@ def main():
     logging.config.dictConfig(config)
     logging.info("Booting ....")
 
-    # with engine.connect() as connection:
-    #     connection.execute(text("CREATE TABLE ok_dan (id INTEGER, name VARCHAR(20))"))
-    #     connection.commit()
-
+    # where to best do this migration ? separate script ?
     Product.metadata.create_all(engine)
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())

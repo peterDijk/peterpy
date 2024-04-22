@@ -41,8 +41,6 @@ class ProductService:
 
     def get(self, id):
         product = self._repository.get(id)
-        if not product:
-            raise KeyError(f"Product with id {id} not found")
         return product
 
     def find(self, query: Dict[str, str]):
