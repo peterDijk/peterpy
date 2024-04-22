@@ -22,7 +22,7 @@ from peterpy.database.models.product import Product as ProductModel
 class DatabaseProductRepository(IRepository[ProductEntity]):
     def get(self, id: UUID) -> ProductEntity:
         with Session(engine) as session:
-            sql_statement = select(ProductModel).filter(ProductModel.id == id)
+            sql_statement = select(ProductModel).filter(ProductModel.id == id.__str__())
             product = session.execute(sql_statement).scalar_one_or_none()
             if product:
                 return product_model_to_entity(product)

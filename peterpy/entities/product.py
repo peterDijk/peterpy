@@ -10,8 +10,8 @@ class Product:
     name: str
     price: float
 
-    def __init__(self, name: str, price: float):
-        self.id = uuid.uuid4()
+    def __init__(self, name: str, price: float, id=uuid.uuid4()):
+        self.id = id
         self.name = name
         self.price = price
 
