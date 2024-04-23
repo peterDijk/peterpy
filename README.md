@@ -37,6 +37,7 @@ A project to practice the language, design patterns and best practices
 - [x] add database container to docker setup
 - [x] connect database
 - [x] setup and implement ORM in database-repository
+- [ ] organize db connection
 - [ ] add custom exceptions
 - [ ] add test-tooling and unit tests
 - [ ] implement DDD
