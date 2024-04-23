@@ -10,9 +10,9 @@ from aiohttp import web
 
 from peterpy import __version__
 from peterpy.config import config, environment
+from peterpy.database.connection import engine
 from peterpy.handlers import health, products
 
-from peterpy.database.connection import engine
 from peterpy.database.models import Product
 
 

@@ -5,10 +5,9 @@ from uuid import UUID
 from peterpy.entities import Product as ProductEntity
 from peterpy.interfaces import IRepository
 
-from peterpy.database.connection import DatabaseSession, engine
+from peterpy.database.connection import DatabaseSession
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
 
 from peterpy.database.data_mapper import (
     product_model_to_entity,
