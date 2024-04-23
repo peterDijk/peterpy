@@ -34,9 +34,13 @@ A project to practice the language, design patterns and best practices
 - [x] implement Abstract Base Class
 - [x] dockerize
 - [x] add app restart mechanism on code change (also within docker container)
-- [ ] add database container to docker setup
+- [x] add database container to docker setup
+- [ ] connect database
+- [ ] setup and implement ORM in database-repository
 - [ ] add custom exceptions
-- [ ] setup orm, connect database (new repository)
 - [ ] add test-tooling and unit tests
 - [ ] implement DDD
+- [ ] ...
+- [ ] ...
+- [ ] service 2: emit to _some_ (Kafka?) queue from _some_ live events provider (news, twitter, ..), service 3: listen for those events, write to db (OpenSearch?), service 3: read from db incl finegrained searching
 - [ ] ...
