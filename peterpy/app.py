@@ -29,7 +29,7 @@ async def startup():
     site = web.TCPSite(http_runner, host=http_host, port=http_port)
     await site.start()
 
-    logging.info("Starting web server, listening on %s:%s", http_host, http_port)
+    logging.info("Starting web server, lisening on %s:%s", http_host, http_port)
 
     # Setup signal handlers for graceful shutdown
     for signal in (SIGTERM, SIGINT):

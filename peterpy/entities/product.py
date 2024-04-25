@@ -5,11 +5,8 @@ from typing import Dict
 from uuid import UUID
 
 
+# @attr.s(auto_attribs=True, frozen=True) <- research this
 class Product:
-    id: UUID
-    name: str
-    price: float
-
     def __init__(self, name: str, price: float):
         self.id = uuid.uuid4()
         self.name = name
