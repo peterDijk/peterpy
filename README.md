@@ -38,7 +38,14 @@ A project to practice the language, design patterns and best practices
 - [x] connect database
 - [x] setup and implement ORM in database-repository
 - [ ] organize db connection
+- [ ] add pagination to /list
+- [ ] setup migrations
 - [ ] add custom exceptions
 - [ ] add test-tooling and unit tests
 - [ ] implement DDD
+- [ ] ...
+- [ ] ...
+- [ ] service 2: emit to _some_ (Kafka?) queue from _some_ live events provider (news, twitter, ..),
+- [ ] service 3: listen for those events, write to db (OpenSearch?),
+- [ ] service 4: read from db incl finegrained searching
 - [ ] ...
