@@ -70,7 +70,7 @@ async def add_product(request: Request) -> Response:
 
     return json_response(
         status=201,
-        text=json.dumps({"message": "Product added", "product_name": product.name}),
+        text=json.dumps({"product": product}, cls=ProductEncoder),
     )
 
 

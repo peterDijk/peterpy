@@ -3,24 +3,16 @@ import logging
 import uuid
 from typing import Dict
 from uuid import UUID
+from dataclasses import dataclass, field
 
 
+@dataclass(kw_only=True, frozen=True)
 class Product:
-    id: UUID
+    id: UUID = field(default_factory=uuid.uuid4)
     name: str
     price: float
 
-    def __init__(self, name: str, price: float, id=uuid.uuid4()):
-        self.id = id
-        self.name = name
-        self.price = price
-
-    def update_name(self, name: str):
-        self.name = name
-
-    def update_price(self, price: float):
-        self.price = price
-
+    # overwrites the built-in dunder method
     def __str__(self):
         return f"{self.name} - ${self.price}"
 
