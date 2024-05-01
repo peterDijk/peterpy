@@ -13,8 +13,9 @@ class ProductService:
         if len(self._repository.find({"name": name})) > 0:
             raise ValueError(f"Product with name {name} already exists")
 
-        product = Product(name, price)
+        product = Product(name=name, price=price)
         logging.debug(f"Adding product {product}")
+        logging.debug(product.__dict__)
         self._repository.add(product)
 
         return product
