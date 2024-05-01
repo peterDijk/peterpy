@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 
-connection_string = "mysql+mysqlconnector://root:root@mysql:3306/peterpy"
+connection_string = "mysql+mysqlconnector://root:root@localhost:3306/peterpy"
 engine = create_engine(connection_string, echo=False)
 
 
