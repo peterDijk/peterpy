@@ -25,6 +25,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
         sql_statement = select(ProductModel).filter(ProductModel.id == id.__str__())
         product = session.execute(sql_statement).scalar_one_or_none()
         if product:
+            db_session.__exit__()
             return product_model_to_entity(product)
 
         raise KeyError(f"Product with id {id} not found")

@@ -10,13 +10,13 @@ from aiohttp import web
 
 from peterpy import __version__
 from peterpy.config import config, environment
-from peterpy.database.connection import engine
+from peterpy.database.connection import DatabaseConnection
 from peterpy.handlers import health, products
 
 from peterpy.database.models import Product
 
 
-async def startup():
+async def startup(db_connection: DatabaseConnection):
     logging.info("Starting app - version %s - environment %s", __version__, environment)
 
     # Web app
@@ -37,7 +37,7 @@ async def startup():
     # Setup signal handlers for graceful shutdown
     for signal in (SIGTERM, SIGINT):
         asyncio.get_running_loop().add_signal_handler(
-            signal, lambda: asyncio.create_task(shutdown(http_runner))
+            signal, lambda: asyncio.create_task(shutdown(http_runner, db_connection))
         )
 
     # Sleep forever (until shutdowns called) to handle HTTP
@@ -53,11 +53,12 @@ def setup_routes(app: web.Application):
     app.router.add_post("/product", products.add_product)
 
 
-async def shutdown(http_runner: web.AppRunner):
+async def shutdown(http_runner: web.AppRunner, db_connection: DatabaseConnection):
     try:
         logging.info("[SHUTDOWN] Shutting down due to signal")
 
         logging.info("[SHUTDOWN] Shutting down HTTP stack")
+        db_connection.__exit__()
         await http_runner.shutdown()
         await http_runner.cleanup()
         sys.exit(EX_OK)
@@ -71,10 +72,12 @@ def main():
     logging.info("Booting ....")
 
     # where to best do this migration ? separate script ?
+    db_connection = DatabaseConnection()
+    engine = db_connection.__enter__()
     Product.metadata.create_all(engine)
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    asyncio.run(startup())
+    asyncio.run(startup(db_connection))
 
 
 if __name__ == "__main__":

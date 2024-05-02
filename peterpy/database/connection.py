@@ -1,37 +1,39 @@
 import logging
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import Session
 
-
 connection_string = "mysql+mysqlconnector://root:root@localhost:3306/peterpy"
-engine = create_engine(connection_string, echo=False)
 
 
 class DatabaseConnection:
-    def __enter__(self):
-
-        connection_string = "mysql+mysqlconnector://root:root@mysql:3306/peterpy"
-
+    def __init__(self):
         try:
             self.engine = create_engine(connection_string, echo=False)
             self.connection = self.engine.connect()
             logging.info("Connected to database")
 
-            return self.engine
-
         except Exception as e:
             print(f"Error connecting to database: {e}")
+
+    def __enter__(self) -> Engine:
+        return self.engine
+
+    def __exit__(self):
+        logging.info("Closing database connection")
+        self.connection.close()
+        return False
 
 
 class DatabaseSession:
     def __init__(self):
-        self.session = None
-        self.engine = create_engine(connection_string, echo=False)
+        self.connection = DatabaseConnection()
+        self.engine = self.connection.__enter__()
 
     def __enter__(self):
         self.session = Session(self.engine)
         return self.session
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self):
+        logging.info("Closing database session")
         self.session.close()
         return False
