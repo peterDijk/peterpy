@@ -11,19 +11,25 @@ class MemoryProductRepository(IRepository[Product]):
     def __init__(self):
         self.items = {}
 
-    def get(self, id: UUID) -> Product:
-        if id not in self.items:
-            raise KeyError(f"Product with id {id} not found")
-        return self.items[id]
+    def get(self, product_id: UUID) -> Product:
+        if product_id not in self.items:
+            raise KeyError(f"Product with product_id {product_id} not found")
+        return self.items[product_id]
 
-    def add(self, obj: Product) -> None:
-        self.items[obj.id] = obj
+    def add(self, obj: Product) -> Product:
+        self.items[obj.product_id] = obj
 
-    def update(self, obj: Product) -> None:
-        self.items[obj.id] = obj
+        return obj
 
-    def remove(self, obj: Product) -> None:
-        del self.items[obj.id]
+    def update(self, obj: Product) -> Product:
+        self.items[obj.product_id] = obj
+
+        return obj
+
+    def remove(self, obj: Product) -> Product:
+        del self.items[obj.product_id]
+
+        return obj
 
     def find(self, query: Dict[str, str]) -> list:
         results = [product for product in self.items.values() if match(product, query)]
@@ -32,8 +38,8 @@ class MemoryProductRepository(IRepository[Product]):
 
         return results
 
-    def find_one(self, id: UUID) -> Product:
-        return self.items[id]
+    def find_one(self, product_id: UUID) -> Product:
+        return self.items[product_id]
 
     def all(self) -> list:
         return list(self.items.values())

@@ -21,7 +21,7 @@ async def list_products(request: Request) -> Response:
     products = product_service.all()
 
     product_json = json.dumps(
-        {"products": products, "count": products.__len__()}, cls=ProductEncoder
+        {"products": products, "count": len(products)}, cls=ProductEncoder
     )
 
     return json_response(status=200, text=product_json)

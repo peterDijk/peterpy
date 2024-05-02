@@ -19,10 +19,10 @@ class ProductService:
 
         return self._repository.add(product)
 
-    def update(self, id, name, price):
+    def update(self, product_id, name, price):
         product = self._repository.get(id)
         if not product:
-            raise KeyError(f"Product with id {id} not found")
+            raise KeyError(f"Product with product_id {id} not found")
 
         if name:
             product.update_name(name)
@@ -32,21 +32,21 @@ class ProductService:
 
         return self._repository.update(product)
 
-    def remove(self, id):
+    def remove(self, product_id):
         product = self._repository.get(id)
         if not product:
-            raise KeyError(f"Product with id {id} not found")
+            raise KeyError(f"Product with product_id {id} not found")
 
         self._repository.remove(product)
 
-    def get(self, id):
+    def get(self, product_id):
         product = self._repository.get(id)
         return product
 
     def find(self, query: Dict[str, str]):
         return self._repository.find(query)
 
-    def find_one(self, id):
+    def find_one(self, product_id):
         return self._repository.find_one(id)
 
     def all(self):

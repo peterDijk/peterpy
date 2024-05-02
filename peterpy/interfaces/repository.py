@@ -1,4 +1,4 @@
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from typing import Dict, Generic, List, TypeVar
 from uuid import UUID
 

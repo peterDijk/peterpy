@@ -1,5 +1,6 @@
 import logging
-from sqlalchemy import create_engine, Engine
+
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
 
 connection_string = "mysql+mysqlconnector://root:root@localhost:3306/peterpy"
@@ -18,7 +19,7 @@ class DatabaseConnection:
     def __enter__(self) -> Engine:
         return self.engine
 
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         logging.info("Closing database connection")
         self.connection.close()
         return False
@@ -48,7 +49,7 @@ class DatabaseSession:
     # *args is used to accept any number of positional arguments
     # and is a tuple of all the positional arguments passed to
     # the __exit__ method.
-    def __exit__(self, *args):
+    def __exit__(self, exc_type, exc_val, exc_tb, *args):
         logging.info("Closing database session")
         self.session.close()
         return False

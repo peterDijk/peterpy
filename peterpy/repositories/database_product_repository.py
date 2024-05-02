@@ -1,31 +1,29 @@
-import logging
 from typing import Dict, List
 from uuid import UUID
 
+from sqlalchemy import select
+
+from peterpy.database.connection import DatabaseSession
+from peterpy.database.data_mapper import (
+    product_entity_to_model,
+    product_model_to_entity,
+)
+from peterpy.database.models.product import Product as ProductModel
 from peterpy.entities import Product as ProductEntity
 from peterpy.interfaces import IRepository
 
-from peterpy.database.connection import DatabaseSession
-
-from sqlalchemy import select
-
-from peterpy.database.data_mapper import (
-    product_model_to_entity,
-    product_entity_to_model,
-)
-
-from peterpy.database.models.product import Product as ProductModel
-
 
 class DatabaseProductRepository(IRepository[ProductEntity]):
-    def get(self, id: UUID) -> ProductEntity:
+    def get(self, product_id: UUID) -> ProductEntity:
         with DatabaseSession() as session:
-            sql_statement = select(ProductModel).filter(ProductModel.id == id.__str__())
+            sql_statement = select(ProductModel).filter(
+                ProductModel.product_id == str(product_id)
+            )
             product = session.execute(sql_statement).scalar_one_or_none()
             if product:
                 return product_model_to_entity(product)
 
-        raise KeyError(f"Product with id {id} not found")
+        raise KeyError(f"Product with product_id {product_id} not found")
 
     def add(self, product_entity: ProductEntity) -> ProductEntity:
         instance = product_entity_to_model(product_entity)
@@ -57,22 +55,25 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
         return items
 
-    def find_one(self, id: UUID) -> ProductEntity:
+    def find_one(self, product_id: UUID) -> ProductEntity:
         raise NotImplementedError
 
     def all(self) -> list:
         with DatabaseSession() as session:
-            stmt = select(ProductModel).order_by(ProductModel.id)
+            stmt = select(ProductModel).order_by(ProductModel.date_added)
             return [
                 product_model_to_entity(product[0]) for product in session.execute(stmt)
             ]
 
     def count(self) -> int:
         with DatabaseSession() as session:
-            stmt = select(ProductModel).order_by(ProductModel.id)
-            return [
-                product_model_to_entity(product[0]) for product in session.execute(stmt)
-            ].__len__()
+            stmt = select(ProductModel).order_by(ProductModel.date_added)
+            return len(
+                [
+                    product_model_to_entity(product[0])
+                    for product in session.execute(stmt)
+                ]
+            )
 
     def clear(self) -> None:
         raise NotImplementedError
