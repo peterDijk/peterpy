@@ -30,17 +30,19 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
         raise KeyError(f"Product with id {id} not found")
 
-    def add(self, obj: ProductEntity) -> None:
-        instance = product_entity_to_model(obj)
+    def add(self, product_entity: ProductEntity) -> ProductEntity:
+        instance = product_entity_to_model(product_entity)
         session = db_session.__enter__()
         session.add(instance)
         session.commit()
         db_session.__exit__()
 
-    def update(self, obj: ProductEntity) -> None:
+        return product_entity
+
+    def update(self, product_entity: ProductEntity) -> ProductEntity:
         raise NotImplementedError
 
-    def remove(self, obj: ProductEntity) -> None:
+    def remove(self, product_entity: ProductEntity) -> ProductEntity:
         raise NotImplementedError
 
     def find(self, query: Dict[str, str]) -> list:

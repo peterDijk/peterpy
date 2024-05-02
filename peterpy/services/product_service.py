@@ -16,9 +16,8 @@ class ProductService:
         product = Product(name=name, price=price)
         logging.debug(f"Adding product {product}")
         logging.debug(product.__dict__)
-        self._repository.add(product)
 
-        return product
+        return self._repository.add(product)
 
     def update(self, id, name, price):
         product = self._repository.get(id)
@@ -31,7 +30,7 @@ class ProductService:
         if price:
             product.update_price(price)
 
-        self._repository.update(product)
+        return self._repository.update(product)
 
     def remove(self, id):
         product = self._repository.get(id)
