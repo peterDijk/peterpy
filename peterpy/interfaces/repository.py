@@ -30,7 +30,7 @@ class IRepository(ABC, Generic[T]):
         raise NotImplementedError
 
     @abstractmethod
-    def find_one(self, _id: UUID) -> T:
+    def find_one(self, obj_id: UUID) -> T:
         raise NotImplementedError
 
     @abstractmethod

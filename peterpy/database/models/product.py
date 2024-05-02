@@ -19,4 +19,5 @@ class Product(Base):
     # what does !r mean ?
     # https://stackoverflow.com/questions/1436703/difference-between-str-and-repr
     def __repr__(self) -> str:
+        # pylint: disable=line-too-long
         return f"Product(id={self.product_id!r}, name={self.name!r}, price={self.price!r}, date_added={self.date_added!r})"

@@ -34,12 +34,12 @@ class MemoryProductRepository(IRepository[Product]):
     def find(self, query: Dict[str, str]) -> list:
         results = [product for product in self.items.values() if match(product, query)]
 
-        logging.debug(f"Found {len(results)} products with query {query}")
+        logging.debug("Found %s products with query %s", len(results), query)
 
         return results
 
-    def find_one(self, product_id: UUID) -> Product:
-        return self.items[product_id]
+    def find_one(self, obj_id: UUID) -> Product:
+        return self.items[obj_id]
 
     def all(self) -> list:
         return list(self.items.values())

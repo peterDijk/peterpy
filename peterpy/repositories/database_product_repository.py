@@ -25,18 +25,20 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
         raise KeyError(f"Product with product_id {product_id} not found")
 
-    def add(self, product_entity: ProductEntity) -> ProductEntity:
-        instance = product_entity_to_model(product_entity)
+    def add(self, obj: ProductEntity) -> ProductEntity:
+        instance = product_entity_to_model(obj)
         with DatabaseSession() as session:
             session.add(instance)
             session.commit()
 
-        return product_entity
+        return obj
 
-    def update(self, product_entity: ProductEntity) -> ProductEntity:
+    # pylint: disable=unused-argument
+    def update(self, obj: ProductEntity) -> ProductEntity:
         raise NotImplementedError
 
-    def remove(self, product_entity: ProductEntity) -> ProductEntity:
+    # pylint: disable=unused-argument
+    def remove(self, obj: ProductEntity) -> ProductEntity:
         raise NotImplementedError
 
     def find(self, query: Dict[str, str]) -> list:
@@ -55,7 +57,8 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
         return items
 
-    def find_one(self, product_id: UUID) -> ProductEntity:
+    # pylint: disable=unused-argument
+    def find_one(self, obj_id: UUID) -> ProductEntity:
         raise NotImplementedError
 
     def all(self) -> list:
