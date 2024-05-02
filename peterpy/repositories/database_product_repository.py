@@ -35,6 +35,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
         session = db_session.__enter__()
         session.add(instance)
         session.commit()
+        db_session.__exit__()
 
     def update(self, obj: ProductEntity) -> None:
         raise NotImplementedError
@@ -55,6 +56,8 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
                 for product in session.execute(sql_statement)
             ]
             items.extend(results)
+
+        db_session.__exit__()
 
         return items
 
