@@ -57,7 +57,9 @@ async def shutdown(http_runner: web.AppRunner):
         logging.info("[SHUTDOWN] Shutting down due to signal")
 
         logging.info("[SHUTDOWN] Shutting down HTTP stack")
-
+        # close connection ?
+        # it was already closed in the __exit__ method of DatabaseConnection using the with statement
+        # in main() function
         await http_runner.shutdown()
         await http_runner.cleanup()
         sys.exit(EX_OK)
