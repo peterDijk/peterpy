@@ -73,6 +73,10 @@ def main():
     # where to best do this migration ? separate script ?
     with DatabaseConnection() as engine:
         Product.metadata.create_all(engine)
+    # connection is closed now because of __exit__ method
+    # how should i organise this so that connections remains open
+    # for the lifetime of the app, and I close the connection in the shutdown function?
+    # Should the connection remain open for the lifetime of the app, and open/close Sessions per request ? or should I open/close the connection per request ?
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(startup())

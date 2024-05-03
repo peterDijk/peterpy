@@ -15,7 +15,6 @@ class ProductService:
 
         product = Product(name=name, price=price)
         logging.debug("Adding product %s", product)
-        logging.debug(product.__dict__)
 
         return self._repository.add(product)
 

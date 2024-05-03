@@ -39,6 +39,7 @@ class DatabaseSession:
 
     # https://docs.python.org/3/reference/compound_stmts.html#with
     def __enter__(self):
+        logging.info("Opening database session")
         self.session = Session(self.engine)
         return self.session
 
@@ -52,4 +53,5 @@ class DatabaseSession:
     def __exit__(self, exc_type, exc_val, exc_tb, *args):
         logging.info("Closing database session")
         self.session.close()
+        self.connection.__exit__(exc_type, exc_val, exc_tb)
         return False
