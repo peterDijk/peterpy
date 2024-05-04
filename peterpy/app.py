@@ -80,6 +80,11 @@ def main():
     # for the lifetime of the app, and I close the connection in the shutdown function?
     # Should the connection remain open for the lifetime of the app, and open/close Sessions per request ? or should I open/close the connection per request ?
 
+    """
+    In general, it's a good practice to minimize the number of open connections and to close connections as soon as they are no longer needed. This helps to conserve resources and prevent issues such as connection leaks, where connections remain open indefinitely and consume resources.
+    thanks copilot
+    """
+
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     asyncio.run(startup())
 

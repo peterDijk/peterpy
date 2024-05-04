@@ -28,6 +28,13 @@ class DatabaseConnection:
 class DatabaseSession:
     def __init__(self):
         self.connection = DatabaseConnection()
+        # is this a misuse of the __enter__ method ?
+        """
+        If the __enter__ method is being used in a way that doesn't fit this pattern, it could be considered a misuse. For example, if the __enter__ method is being used to perform a long-running operation, or to perform an operation that doesn't need to be cleaned up, it might be better to use a regular function or method instead.
+
+        However, without seeing the actual code that uses the __enter__ method, it's hard to say for sure whether it's being misused. If you're unsure, it might be helpful to ask for a code review from a colleague or post your code on a site like Stack Overflow to get feedback from other developers.
+        thanks copilot
+        """
         self.engine = self.connection.__enter__()
 
     # 'with' statement calls __enter__ and __exit__ methods
