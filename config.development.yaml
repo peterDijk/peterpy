@@ -25,22 +25,6 @@ handlers:
         filename: log.log
         mode: a
 
-loggers:
-    development:
-        level: DEBUG
-        handlers: [console]
-        propagate: no
-
-    staging:
-        level: INFO
-        handlers: [console, file]
-        propagate: no
-
-    production:
-        level: WARNING
-        handlers: [file]
-        propagate: no
-
 root:
     level: DEBUG
     handlers: [console]
