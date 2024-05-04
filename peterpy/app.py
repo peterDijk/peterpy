@@ -21,8 +21,8 @@ async def startup():
     # Web app
     http_app = web.Application()
     setup_routes(http_app)
-    http_host = config["APP_HOST"]
-    http_port = config["APP_PORT"]
+    http_host = config["PETERPY_APP_HOST"]
+    http_port = config["PETERPY_APP_PORT"]
 
     http_runner = web.AppRunner(http_app)
     await http_runner.setup()
