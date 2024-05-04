@@ -63,7 +63,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
     def all(self) -> list:
         with DatabaseSession() as session:
-            stmt = select(ProductModel).order_by(ProductModel.date_added)
+            stmt = select(ProductModel).order_by(ProductModel.date_added.desc())
             return [
                 product_model_to_entity(product[0]) for product in session.execute(stmt)
             ]
