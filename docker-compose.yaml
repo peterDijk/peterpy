@@ -1,27 +1,44 @@
 ---
 version: "3.4"
-# services:
-# during development use the vscode debugger to run the app
-# peterpy:
-#   container_name: peterpy
-#   build:
-#     context: ../peterpy
-#     dockerfile: Dockerfile
-#   command: poetry run peterpy
-#   restart: always
-#   develop:
-#     watch:
-#       - action: rebuild
-#         path: ./peterpy
-#         target: /app/peterpy
-#       - action: rebuild
-#         path: config.yaml
-#   ports:
-#     - "9090:8080"
-#   environment:
-#     - APP_ENV=development
-#   networks:
-#     - backend
+services:
+  peterpy:
+    container_name: peterpy
+    build:
+      context: ../peterpy
+      dockerfile: Dockerfile
+    command: poetry run peterpy
+    restart: always
+    develop:
+      watch:
+        - action: rebuild
+          path: ./peterpy
+          target: /app/peterpy
+        - action: rebuild
+          path: config.development.yaml
+    ports:
+      - "${APP_CONTAINER_PORT}:${APP_PORT}"
+    environment:
+      - APP_ENV=development
+    networks:
+      - backend
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_TCP_PORT: ${MYSQL_TCP_PORT}
+    networks:
+      - backend
+    ports:
+      - ${MYSQL_CONTAINER_PORT}:${MYSQL_TCP_PORT}
+    volumes:
+      - type: volume
+        source: peterpy-volume-data
+        target: /var/lib/peterpy
 
 networks:
   backend:
