@@ -10,7 +10,7 @@ ENV POETRY_NO_INTERACTION=1 \
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock config.yaml README.md ./
+COPY pyproject.toml poetry.lock config.development.yaml README.md .env.development ./
 
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
@@ -23,7 +23,7 @@ ENV VIRTUAL_ENV=/app/.venv \
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY peterpy ./peterpy
-COPY pyproject.toml config.yaml ./
+COPY pyproject.toml config.development.yaml .env.development ./
 
 # Run Application
 ENTRYPOINT [ "python", "-m", "peterpy.app" ]
