@@ -16,7 +16,7 @@ services:
         - action: rebuild
           path: config.development.yaml
     ports:
-      - "${APP_CONTAINER_PORT}:${APP_PORT}"
+      - "${PETERPY_APP_CONTAINER_PORT}:${PETERPY_APP_PORT}"
     environment:
       - APP_ENV=development
     networks:
@@ -28,13 +28,13 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_TCP_PORT: ${MYSQL_TCP_PORT}
+      MYSQL_ROOT_PASSWORD: ${PETERPY_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PETERPY_MYSQL_DATABASE}
+      MYSQL_TCP_PORT: ${PETERPY_MYSQL_TCP_PORT}
     networks:
       - backend
     ports:
-      - ${MYSQL_CONTAINER_PORT}:${MYSQL_TCP_PORT}
+      - ${PETERPY_MYSQL_CONTAINER_PORT}:${PETERPY_MYSQL_TCP_PORT}
     volumes:
       - type: volume
         source: peterpy-volume-data
