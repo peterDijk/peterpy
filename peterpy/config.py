@@ -2,7 +2,7 @@ from os import environ
 from dotenv import load_dotenv
 
 environment = environ.get("APP_ENV", "development")
-load_dotenv(f".env.{environment}")  # take environment variables from .env.
+load_dotenv(f".env")  # take environment variables from .env.
 
 # mypy: ignore-errors
 from configloader import ConfigLoader

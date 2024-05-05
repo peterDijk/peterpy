@@ -25,7 +25,6 @@ async def startup():
     http_runner = web.AppRunner(http_app)
     await http_runner.setup()
 
-    # what is tcpsite for ?
     site = web.TCPSite(http_runner, host=http_host, port=http_port)
     await site.start()
 
@@ -48,6 +47,7 @@ def setup_routes(app: web.Application):
     app.router.add_get("/product/list", products.list_products)
     app.router.add_get("/product/{id}", products.get_product)
     app.router.add_post("/product", products.add_product)
+    app.router.add_post("/message", products.send_message)
 
 
 async def shutdown(http_runner: web.AppRunner):
