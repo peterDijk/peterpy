@@ -1,22 +1,36 @@
 import logging
 from typing import Dict
+from peterpy.config import config
 
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
+
+from peterpy.services.kafka_service import KafkaService
 
 
 class ProductService:
     def __init__(self, repository: IRepository[Product]):
         self._repository = repository
+        self.kafka_service = KafkaService("products")
 
-    def add(self, name: str, price: float) -> Product:
-        if len(self._repository.find({"name": name})) > 0:
-            raise ValueError(f"Product with name {name} already exists")
+    async def add(self, name: str, price: float) -> Product:
+        try:
+            if len(self._repository.find({"name": name})) > 0:
+                raise ValueError(f"Product with name {name} already exists")
 
-        product = Product(name=name, price=price)
-        logging.debug("Adding product %s", product)
+            product = Product(name=name, price=price)
+            logging.debug(f"Adding product {product}")
+            logging.debug(product.__dict__)
+            stored_product = self._repository.add(product)
 
-        return self._repository.add(product)
+            await self.kafka_service.produce(
+                {"event_name": "ProductAdded", "product": product.to_json()}
+            )
+
+            return stored_product
+        except Exception as err:
+            logging.error("Error adding product: %s", err)
+            raise
 
     def update(self, product_id, name, price):
         product = self._repository.get(product_id)
