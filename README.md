@@ -8,13 +8,20 @@ A project to practice the language, design patterns and best practices
 
 ### To run:
 
+`.env`: `localhost` values for the HOST vars
+`$ docker compose build`
+`$ docker compose up -d`
 `$ poetry run peterpy`
 
 ### Run with Docker
 
+`.env`: container names (`mysql`, `kafka1`) values for the HOST vars
+`$ docker compose build`
 `$ docker compose up -d`
 
-### To use auto restarts during development
+To switch between the 2 methods, stop en remove all containers then build again
+
+#### To use auto restarts during development
 
 `$ docker compose watch` keep terminal open
 `$ docker compose logs -f` in another terminal
@@ -35,13 +42,14 @@ A project to practice the language, design patterns and best practices
 - [x] dockerize
 - [x] add app restart mechanism on code change (also within docker container)
 - [x] add database container to docker setup
+- [x] setup Kafka stack, produce message on add product
 - [x] connect database
 - [x] setup and implement ORM in database-repository
-- [ ] organize db connection
+- [x] organize db connection
+- [ ] add test-tooling and unit tests
 - [ ] add pagination to /list
 - [ ] setup migrations
 - [ ] add custom exceptions
-- [ ] add test-tooling and unit tests
 - [ ] implement DDD
 - [ ] ...
 - [ ] ...
