@@ -25,7 +25,6 @@ async def startup():
     http_runner = web.AppRunner(http_app)
     await http_runner.setup()
 
-    # what is tcpsite for ?
     site = web.TCPSite(http_runner, host=http_host, port=http_port)
     await site.start()
 
