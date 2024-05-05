@@ -37,7 +37,7 @@ class KafkaService:
     #     async for msg in self._consumer:
     #         print("consumed: ", msg.topic, msg.partition, msg.offset, msg.key, msg.value)
 
-    async def produce(self, message: str):
+    async def produce(self, message: dict[str, str]):
         producer = AIOKafkaProducer(
             bootstrap_servers=f"localhost:{config["KAFKA_PORT"]}"
         )
@@ -45,6 +45,7 @@ class KafkaService:
         await producer.start()
 
         try:
-            await producer.send_and_wait(self.topic, kafka_serializer(message), key_serializer("product"))
+            ready_message = kafka_serializer(message)
+            await producer.send_and_wait(self.topic, ready_message, key_serializer(self.topic))
         finally:
             await producer.stop()

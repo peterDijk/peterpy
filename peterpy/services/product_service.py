@@ -5,9 +5,6 @@ from peterpy.config import config
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
 
-# mypy: ignore-errors
-from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
-
 from peterpy.services.kafka_service import KafkaService
 
 
@@ -15,13 +12,6 @@ class ProductService:
     def __init__(self, repository: IRepository[Product]):
         self._repository = repository
         self.kafka_service = KafkaService("products")
-
-    # async def send_message(self, message: Dict):
-    #     try:
-    #         await self.kafka_service.produce(message)
-
-    #     except Exception as err:
-    #         print(f"Some Kafka error: {err}")
 
     async def add(self, name: str, price: float) -> Product:
         try:
