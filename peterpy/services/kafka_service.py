@@ -25,7 +25,7 @@ class KafkaService:
     async def start(self):
         self._consumer = AIOKafkaConsumer(
             self.topic,
-            bootstrap_servers=f"localhost:{config["KAFKA_PORT"]}",
+            bootstrap_servers=f"{config["KAFKA_HOST"]}:{config["KAFKA_PORT"]}",
             group_id="peterpy",
         )    
             
