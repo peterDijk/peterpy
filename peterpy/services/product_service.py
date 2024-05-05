@@ -1,24 +1,46 @@
 import logging
 from typing import Dict
+from peterpy.config import config
 
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
+
+# mypy: ignore-errors
+from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
+
+from peterpy.services.kafka_service import KafkaService
 
 
 class ProductService:
     def __init__(self, repository: IRepository[Product]):
         self._repository = repository
+        self.kafka_service = KafkaService("products")
 
-    def add(self, name: str, price: float) -> Product:
-        if len(self._repository.find({"name": name})) > 0:
-            raise ValueError(f"Product with name {name} already exists")
+    # async def send_message(self, message: Dict):
+    #     try:
+    #         await self.kafka_service.produce(message)
 
-        product = Product(name=name, price=price)
-        logging.debug(f"Adding product {product}")
-        logging.debug(product.__dict__)
-        self._repository.add(product)
+    #     except Exception as err:
+    #         print(f"Some Kafka error: {err}")
 
-        return product
+    async def add(self, name: str, price: float) -> Product:
+        try:
+            if len(self._repository.find({"name": name})) > 0:
+                raise ValueError(f"Product with name {name} already exists")
+
+            product = Product(name=name, price=price)
+            logging.debug(f"Adding product {product}")
+            logging.debug(product.__dict__)
+            self._repository.add(product)
+
+            await self.kafka_service.produce(
+                {"event_name": "ProductAdded", "product": product.to_json()}
+            )
+
+            return product
+        except Exception as err:
+            logging.error("Error adding product: %s", err)
+            raise
 
     def update(self, id, name, price):
         product = self._repository.get(id)

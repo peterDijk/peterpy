@@ -48,6 +48,7 @@ def setup_routes(app: web.Application):
     app.router.add_get("/product/list", products.list_products)
     app.router.add_get("/product/{id}", products.get_product)
     app.router.add_post("/product", products.add_product)
+    app.router.add_post("/message", products.send_message)
 
 
 async def shutdown(http_runner: web.AppRunner):

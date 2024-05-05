@@ -7,11 +7,26 @@ from aiohttp.web import Request, Response, json_response
 from peterpy import routes
 from peterpy.entities import ProductEncoder
 from peterpy.repositories import MemoryProductRepository
-from peterpy.services import ProductService
+from peterpy.services import ProductService, KafkaService
 
 # define globally because we are using a memory repository
 # every method of the service will use the same repository
 product_repository = MemoryProductRepository()
+
+
+@routes.post("/message")
+async def send_message(request: Request) -> Response:
+    logging.debug("---------------------------------")
+    logging.info("Send message requested from %s", request.remote)
+
+    data = await request.json()
+    topic = "messages"
+    message = data.get("message")
+
+    kafka_service = KafkaService(topic)
+    await kafka_service.produce(message)
+
+    return json_response(status=201, text=json.dumps({"message": "Message sent"}))
 
 
 @routes.get("/list")
@@ -64,7 +79,7 @@ async def add_product(request: Request) -> Response:
     product_service = ProductService(product_repository)
 
     try:
-        product = product_service.add(name, price)
+        product = await product_service.add(name, price)
     except ValueError as e:
         return json_response(status=400, text=json.dumps({"error": str(e)}))
 
