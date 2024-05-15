@@ -46,14 +46,12 @@ To switch between the 2 methods, stop en remove all containers then build again
 - [x] connect database
 - [x] setup and implement ORM in database-repository
 - [x] organize db connection
+- [ ] setup database-session + commit in aiohttp-middleware (1 commit per request). in middleware try/catch with rollback in catch. app start open connection, app shutdown close connection
+- [ ] setup dependency injection in app start so handler doesnt need to setup repo + service every request
 - [ ] add test-tooling and unit tests
 - [ ] add pagination to /list
-- [ ] setup migrations
+- [ ] setup migrations (use Flyway)
+- [ ] input validation
 - [ ] add custom exceptions
-- [ ] implement DDD
-- [ ] ...
-- [ ] ...
-- [ ] service 2: emit to _some_ (Kafka?) queue from _some_ live events provider (news, twitter, ..),
-- [ ] service 3: listen for those events, write to db (OpenSearch?),
-- [ ] service 4: read from db incl finegrained searching
-- [ ] ...
+- [ ] Github Actions (linting, testing)
+- ...
