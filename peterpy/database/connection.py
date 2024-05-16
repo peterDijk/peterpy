@@ -20,7 +20,7 @@ class DatabaseConnection:
     def engine(self) -> Engine:
         return self._engine
 
-    def close(self, exc_type, exc_val, exc_tb):
+    def close(self):
         logging.info("Closing database connection")
         self.connection.close()
         return False

@@ -13,35 +13,15 @@ from peterpy.config import config, environment
 from peterpy.database.connection import DatabaseConnection, DatabaseSession
 from peterpy.database.models import Product
 from peterpy.handlers import health, products
+from peterpy.middlewares import db_session_wrapper_factory
 from peterpy.repositories.database_product_repository import DatabaseProductRepository
 
 
-@web.middleware
-async def db_session_wrapper(request, handler):
-    logging.debug("db_session_wrapper called")
-    db_connection = DatabaseConnection()
-    engine = db_connection.engine()
-
-    try:
-        with DatabaseSession(engine) as session:
-            repository = DatabaseProductRepository(session)
-            request["repository"] = repository
-            response = await handler(request)
-            logging.debug("db_session_wrapper committing")
-            session.commit()
-            logging.debug("db_session_wrapper finished")
-            return response
-    except Exception as e:
-        logging.exception("Exception happened in middleware 1")
-        session.rollback()
-        return web.json_response(status=500, text=str(e))
-
-
-async def startup():
+async def startup(db_connection: DatabaseConnection):
     logging.info("Starting app - version %s - environment %s", __version__, environment)
 
     # Web app
-    http_app = web.Application(middlewares=[db_session_wrapper])
+    http_app = web.Application(middlewares=[db_session_wrapper_factory(db_connection)])
     setup_routes(http_app)
     http_host = config["APP_HOST"]
     http_port = config["APP_PORT"]
@@ -57,7 +37,7 @@ async def startup():
     # Setup signal handlers for graceful shutdown
     for signal in (SIGTERM, SIGINT):
         asyncio.get_running_loop().add_signal_handler(
-            signal, lambda: asyncio.create_task(shutdown(http_runner))
+            signal, lambda: asyncio.create_task(shutdown(http_runner, db_connection))
         )
 
     # Sleep forever (until shutdowns called) to handle HTTP
@@ -71,14 +51,16 @@ def setup_routes(app: web.Application):
     app.router.add_get("/product/list", products.list_products)
     app.router.add_get("/product/{id}", products.get_product)
     app.router.add_post("/product", products.add_product)
+    app.router.add_post("/products/", products.add_products)
 
 
-async def shutdown(http_runner: web.AppRunner):
+async def shutdown(http_runner: web.AppRunner, db_connection: DatabaseConnection):
     try:
         logging.info("[SHUTDOWN] Shutting down due to signal")
 
         logging.info("[SHUTDOWN] Shutting down HTTP stack")
         # close DB Connection
+        db_connection.close()
         await http_runner.shutdown()
         await http_runner.cleanup()
         sys.exit(EX_OK)
@@ -91,15 +73,15 @@ def main():
     logging.config.dictConfig(config)
     logging.info("Booting ....")
 
+    # Open Database connection
     db_connection = DatabaseConnection()
-    engine = db_connection.engine()
-    Product.metadata.create_all(engine)
+
+    # engine = db_connection.engine()
+    # Product.metadata.create_all(engine)
     # move above to FLyway migrations in follow up PR
 
-    # Open Database connection
-
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    asyncio.run(startup())
+    asyncio.run(startup(db_connection))
 
 
 if __name__ == "__main__":

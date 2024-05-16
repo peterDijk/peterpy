@@ -6,7 +6,10 @@ from aiohttp.web import Request, Response, json_response
 
 from peterpy import routes
 from peterpy.database.connection import DatabaseConnection, DatabaseSession
+
 from peterpy.entities import ProductEncoder
+from peterpy.entities.product import Product
+from peterpy.interfaces.repository import IRepository
 from peterpy.repositories import DatabaseProductRepository
 from peterpy.services import ProductService
 from peterpy.services import ProductService, KafkaService
@@ -17,8 +20,7 @@ async def list_products(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
-    repository = request["repository"]
-    product_service = ProductService(repository)
+    product_service: ProductService = request["product_service"]
 
     products = product_service.all()
 
@@ -34,8 +36,7 @@ async def get_product(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("Get one product requested from %s", request.remote)
 
-    repository = request["repository"]
-    product_service = ProductService(repository)
+    product_service: ProductService = request["product_service"]
 
     try:
         product_id = UUID(request.match_info["id"])
@@ -62,8 +63,46 @@ async def add_product(request: Request) -> Response:
     name = data.get("name")
     price = data.get("price")
 
-    repository = request["repository"]
-    product_service = ProductService(repository)
+    product_service: ProductService = request["product_service"]
+
+    try:
+        product = await product_service.add(name, price)
+    except ValueError as e:
+        return json_response(status=400, text=json.dumps({"error": str(e)}))
+
+    return json_response(
+        status=201,
+        text=json.dumps({"product": product}, cls=ProductEncoder),
+    )
+
+
+# Add this to show adding batch of products, but only
+# committing at the end of the batch (in the middleware)
+@routes.post("/products")
+async def add_products(request: Request) -> Response:
+    logging.debug("---------------------------------")
+    logging.info("Add multiple products requested from %s", request.remote)
+
+    product_service: ProductService = request["product_service"]
+
+    data = await request.json()
+    products = data.get("products")
+    for product in products:
+        name = product.get("name")
+        price = product.get("price")
+        try:
+            product = await product_service.add(name, price)
+
+        except ValueError as e:
+            logging.debug(f"Error adding product: {e}")
+            # return json_response(status=400, text=json.dumps({"error": str(e)}))
+
+    return json_response(
+        status=201,
+        text=json.dumps({"product": product}, cls=ProductEncoder),
+    )
+    # name = data.get("name")
+    # price = data.get("price")
 
     try:
         product = await product_service.add(name, price)
@@ -81,8 +120,7 @@ async def get_dashboard(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
-    repository = request["repository"]
-    product_service = ProductService(repository)
+    product_service: ProductService = request["product_service"]
 
     products_count = product_service.count()
     products = product_service.all()

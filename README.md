@@ -47,7 +47,7 @@ To switch between the 2 methods, stop en remove all containers then build again
 - [x] setup and implement ORM in database-repository
 - [x] organize db connection
 - [x] setup database-session + commit in aiohttp-middleware (1 commit per request). in middleware try/catch with rollback in catch. app start open connection, app shutdown close connection
-- [ ] setup dependency injection in app start so handler doesnt need to setup repo + service every request
+- [x] setup dependency injection in app start so handler doesnt need to get repository from the request + and create new service every request (middleware adds product_service to the request. Typing is lost though..)
 - [ ] add test-tooling and unit tests
 - [ ] add pagination to /list
 - [ ] setup migrations (use Flyway)
