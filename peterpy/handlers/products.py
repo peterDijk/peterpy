@@ -17,9 +17,8 @@ async def list_products(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
-    session = request["session"]
-    product_repository = DatabaseProductRepository(session)
-    product_service = ProductService(product_repository)
+    repository = request["repository"]
+    product_service = ProductService(repository)
 
     products = product_service.all()
 
@@ -35,9 +34,8 @@ async def get_product(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("Get one product requested from %s", request.remote)
 
-    session = request["session"]
-    product_repository = DatabaseProductRepository(session)
-    product_service = ProductService(product_repository)
+    repository = request["repository"]
+    product_service = ProductService(repository)
 
     try:
         product_id = UUID(request.match_info["id"])
@@ -64,9 +62,8 @@ async def add_product(request: Request) -> Response:
     name = data.get("name")
     price = data.get("price")
 
-    session = request["session"]
-    product_repository = DatabaseProductRepository(session)
-    product_service = ProductService(product_repository)
+    repository = request["repository"]
+    product_service = ProductService(repository)
 
     try:
         product = await product_service.add(name, price)
@@ -84,12 +81,8 @@ async def get_dashboard(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
-    connection = DatabaseConnection()
-    engine = connection.open()
-
-    session = request["session"]
-    product_repository = DatabaseProductRepository(session)
-    product_service = ProductService(product_repository)
+    repository = request["repository"]
+    product_service = ProductService(repository)
 
     products_count = product_service.count()
     products = product_service.all()

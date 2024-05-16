@@ -13,6 +13,7 @@ from peterpy.config import config, environment
 from peterpy.database.connection import DatabaseConnection, DatabaseSession
 from peterpy.database.models import Product
 from peterpy.handlers import health, products
+from peterpy.repositories.database_product_repository import DatabaseProductRepository
 
 
 @web.middleware
@@ -23,8 +24,10 @@ async def db_session_wrapper(request, handler):
 
     try:
         with DatabaseSession(engine) as session:
-            request["session"] = session
+            repository = DatabaseProductRepository(session)
+            request["repository"] = repository
             response = await handler(request)
+            logging.debug("db_session_wrapper committing")
             session.commit()
             logging.debug("db_session_wrapper finished")
             return response

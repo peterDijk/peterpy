@@ -30,7 +30,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
     def add(self, obj: ProductEntity) -> ProductEntity:
         instance = product_entity_to_model(obj)
         self.session.add(instance)
-        # self.session.commit()
+        # commit is done in the middleware
 
         return obj
 
