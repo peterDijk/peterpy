@@ -10,24 +10,35 @@ from aiohttp import web
 
 from peterpy import __version__
 from peterpy.config import config, environment
-from peterpy.database.connection import DatabaseConnection
+from peterpy.database.connection import DatabaseConnection, DatabaseSession
 from peterpy.database.models import Product
 from peterpy.handlers import health, products
 
 
 @web.middleware
-async def middleware1(request, handler):
-    print("Middleware 1 called")
-    response = await handler(request)
-    print("Middleware 1 finished")
-    return response
+async def db_session_wrapper(request, handler):
+    logging.debug("db_session_wrapper called")
+    db_connection = DatabaseConnection()
+    engine = db_connection.open()
+
+    try:
+        with DatabaseSession(engine) as session:
+            request["session"] = session
+            response = await handler(request)
+            session.commit()
+            logging.debug("db_session_wrapper finished")
+            return response
+    except Exception as e:
+        logging.exception("Exception happened in middleware 1")
+        session.rollback()
+        return web.json_response(status=500, text=str(e))
 
 
 async def startup():
     logging.info("Starting app - version %s - environment %s", __version__, environment)
 
     # Web app
-    http_app = web.Application(middlewares=[middleware1])
+    http_app = web.Application(middlewares=[db_session_wrapper])
     setup_routes(http_app)
     http_host = config["APP_HOST"]
     http_port = config["APP_PORT"]
