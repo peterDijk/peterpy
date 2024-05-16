@@ -10,15 +10,15 @@ connection_string = f"mysql+mysqlconnector://root:{config["MYSQL_ROOT_PASSWORD"]
 class DatabaseConnection:
     def __init__(self):
         try:
-            self.engine = create_engine(connection_string, echo=False)
-            self.connection = self.engine.connect()
+            self._engine = create_engine(connection_string, echo=False)
+            self.connection = self._engine.connect()
             logging.info("Connected to database")
 
         except Exception as e:
             print(f"Error connecting to database: {e}")
 
-    def open(self) -> Engine:
-        return self.engine
+    def engine(self) -> Engine:
+        return self._engine
 
     def close(self, exc_type, exc_val, exc_tb):
         logging.info("Closing database connection")

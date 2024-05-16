@@ -19,7 +19,7 @@ from peterpy.handlers import health, products
 async def db_session_wrapper(request, handler):
     logging.debug("db_session_wrapper called")
     db_connection = DatabaseConnection()
-    engine = db_connection.open()
+    engine = db_connection.engine()
 
     try:
         with DatabaseSession(engine) as session:
@@ -89,7 +89,7 @@ def main():
     logging.info("Booting ....")
 
     db_connection = DatabaseConnection()
-    engine = db_connection.open()
+    engine = db_connection.engine()
     Product.metadata.create_all(engine)
     # move above to FLyway migrations in follow up PR
 
