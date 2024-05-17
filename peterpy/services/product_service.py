@@ -10,20 +10,15 @@ class ProductService:
     def __init__(self, repository: IRepository[Product]):
         self.repository = repository
 
-    async def add(self, name: str, price: float) -> Product:
-        try:
-            if len(self.repository.find({"name": name})) > 0:
-                raise ValueError(f"Product with name {name} already exists")
+    async def add(self, name: str, price: float):
+        if len(self.repository.find({"name": name})) > 0:
+            raise ValueError(f"Product with name {name} already exists")
 
-            product = Product(name=name, price=price)
-            logging.debug(f"Adding product {product}")
-            logging.debug(product.__dict__)
-            stored_product = self.repository.add(product)
+        product = Product(name=name, price=price)
+        logging.debug(f"Adding product {product}")
+        stored_product = self.repository.add(product)
 
-            return stored_product
-        except Exception as err:
-            logging.error("Error adding product: %s", err)
-            raise
+        return stored_product
 
     def update(self, product_id, name, price):
         product = self.repository.get(product_id)

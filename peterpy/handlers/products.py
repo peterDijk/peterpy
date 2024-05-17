@@ -76,8 +76,8 @@ async def add_product(request: Request) -> Response:
     )
 
 
-# Add this to show adding batch of products, but only
-# committing at the end of the batch (in the middleware)
+# Add this to show adding batch of products, while only
+# committing at the end of the batch in the middleware
 @routes.post("/products")
 async def add_products(request: Request) -> Response:
     logging.debug("---------------------------------")
@@ -87,32 +87,22 @@ async def add_products(request: Request) -> Response:
 
     data = await request.json()
     products = data.get("products")
-    for product in products:
-        name = product.get("name")
-        price = product.get("price")
-        try:
-            product = await product_service.add(name, price)
-
-        except ValueError as e:
-            logging.debug(f"Error adding product: {e}")
-            # return json_response(status=400, text=json.dumps({"error": str(e)}))
-
-    return json_response(
-        status=201,
-        text=json.dumps({"product": product}, cls=ProductEncoder),
-    )
-    # name = data.get("name")
-    # price = data.get("price")
 
     try:
-        product = await product_service.add(name, price)
+        for product in products:
+            name = product.get("name")
+            price = product.get("price")
+            product = await product_service.add(name, price)
+
+        return json_response(
+            status=201,
+            text=json.dumps(
+                {"products": products},
+                cls=ProductEncoder,
+            ),
+        )
     except ValueError as e:
         return json_response(status=400, text=json.dumps({"error": str(e)}))
-
-    return json_response(
-        status=201,
-        text=json.dumps({"product": product}, cls=ProductEncoder),
-    )
 
 
 @routes.get("/")
