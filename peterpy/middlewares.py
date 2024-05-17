@@ -24,9 +24,7 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                 logging.debug("db_session_wrapper finished")
                 return response
             except Exception as e:
-                logging.exception(
-                    "Exception happened in db_session_wrapper 1: %s - rolling back", e
-                )
+                logging.error("Exception happened in db_session_wrapper - rolling back")
                 session.rollback()
                 return web.json_response(status=500, text=str(e))
 

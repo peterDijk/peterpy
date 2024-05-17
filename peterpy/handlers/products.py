@@ -101,8 +101,8 @@ async def add_products(request: Request) -> Response:
                 cls=ProductEncoder,
             ),
         )
-    except ValueError as e:
-        raise e
+    except:
+        raise ValueError("1 or more products failed to add")
 
 
 @routes.get("/")
