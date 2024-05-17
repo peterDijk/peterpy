@@ -88,21 +88,21 @@ async def add_products(request: Request) -> Response:
     data = await request.json()
     products = data.get("products")
 
-    # try:
-    for product in products:
-        name = product.get("name")
-        price = product.get("price")
-        product = await product_service.add(name, price)
+    try:
+        for product in products:
+            name = product.get("name")
+            price = product.get("price")
+            product = await product_service.add(name, price)
 
-    return json_response(
-        status=201,
-        text=json.dumps(
-            {"products": products},
-            cls=ProductEncoder,
-        ),
-    )
-    # except ValueError as e:
-    #     return json_response(status=400, text=json.dumps({"error": str(e)}))
+        return json_response(
+            status=201,
+            text=json.dumps(
+                {"products": products},
+                cls=ProductEncoder,
+            ),
+        )
+    except ValueError as e:
+        raise e
 
 
 @routes.get("/")
