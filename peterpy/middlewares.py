@@ -10,7 +10,6 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
     @web.middleware
     async def db_session_wrapper(request, handler):
         logging.debug("db_session_wrapper called")
-        # db_connection = incoming from app main, so we can use the same connection we close on app shutdown
         engine = db_connection.engine()
 
         try:
