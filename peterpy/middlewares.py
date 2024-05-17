@@ -12,8 +12,8 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
         logging.debug("db_session_wrapper called")
         engine = db_connection.engine()
 
-        try:
-            with DatabaseSession(engine) as session:
+        with DatabaseSession(engine) as session:
+            try:
                 repository = DatabaseProductRepository(session)
                 product_service = ProductService(repository)
                 request["product_service"] = product_service
@@ -23,11 +23,11 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                 session.commit()
                 logging.debug("db_session_wrapper finished")
                 return response
-        except Exception as e:
-            logging.exception(
-                "Exception happened in db_session_wrapper 1: %s - rolling back", e
-            )
-            session.rollback()
-            return web.json_response(status=500, text=str(e))
+            except Exception as e:
+                logging.exception(
+                    "Exception happened in db_session_wrapper 1: %s - rolling back", e
+                )
+                session.rollback()
+                return web.json_response(status=500, text=str(e))
 
     return db_session_wrapper

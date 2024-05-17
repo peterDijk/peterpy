@@ -12,7 +12,7 @@ class ProductService:
 
     async def add(self, name: str, price: float):
         if len(self.repository.find({"name": name})) > 0:
-            raise ValueError(f"Product with name {name} already exists")
+            raise ValueError(f"Product with name '{name}' already exists")
 
         product = Product(name=name, price=price)
         logging.debug(f"Adding product {product}")
