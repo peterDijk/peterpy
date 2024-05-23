@@ -73,15 +73,18 @@ def main():
     logging.config.dictConfig(config)
     logging.info("Booting ....")
 
-    # Open Database connection
-    db_connection = DatabaseConnection()
+    try:
+        # Open Database connection
+        db_connection = DatabaseConnection()
+
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+        asyncio.run(startup(db_connection))
+    except Exception as e:
+        print(f"Error connecting to database: {e}")
 
     # engine = db_connection.engine()
     # Product.metadata.create_all(engine)
     # move above to FLyway migrations in follow up PR
-
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-    asyncio.run(startup(db_connection))
 
 
 if __name__ == "__main__":
