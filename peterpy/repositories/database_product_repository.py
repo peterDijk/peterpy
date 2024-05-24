@@ -61,7 +61,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
     def find_one(self, obj_id: UUID) -> ProductEntity:
         raise NotImplementedError
 
-    def all(self) -> list:
+    def all(self) -> List[ProductEntity]:
         stmt = select(ProductModel).order_by(ProductModel.date_added.desc())
         return [
             product_model_to_entity(product[0])

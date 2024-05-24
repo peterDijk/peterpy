@@ -9,7 +9,7 @@ class Product(Base):
     __tablename__ = "products"
 
     product_id = Column(String(255), primary_key=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False, unique=True)
     price = Column(BigInteger, nullable=False)
     date_added = Column(DateTime(timezone=True), default=datetime.utcnow)
 

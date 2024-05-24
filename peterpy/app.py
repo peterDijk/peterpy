@@ -10,11 +10,10 @@ from aiohttp import web
 
 from peterpy import __version__
 from peterpy.config import config, environment
-from peterpy.database.connection import DatabaseConnection, DatabaseSession
-from peterpy.database.models import Product
-from peterpy.handlers import health, products
+from peterpy.database.connection import DatabaseConnection
+from peterpy.database.models.product import Product
+from peterpy.handlers import health_handler, product_handler
 from peterpy.middlewares import db_session_wrapper_factory
-from peterpy.repositories.database_product_repository import DatabaseProductRepository
 
 
 async def startup(db_connection: DatabaseConnection):
@@ -46,12 +45,12 @@ async def startup(db_connection: DatabaseConnection):
 
 
 def setup_routes(app: web.Application):
-    app.router.add_get("/health", health.instance_health)
-    app.router.add_get("/", products.get_dashboard)
-    app.router.add_get("/product/list", products.list_products)
-    app.router.add_get("/product/{id}", products.get_product)
-    app.router.add_post("/product", products.add_product)
-    app.router.add_post("/products/", products.add_products)
+    app.router.add_get("/health", health_handler.instance_health)
+    app.router.add_get("/", product_handler.get_dashboard)
+    app.router.add_get("/product/list", product_handler.list_products)
+    app.router.add_get("/product/{id}", product_handler.get_product)
+    app.router.add_post("/product", product_handler.add_product)
+    app.router.add_post("/products/", product_handler.add_products)
 
 
 async def shutdown(http_runner: web.AppRunner, db_connection: DatabaseConnection):
@@ -77,14 +76,14 @@ def main():
         # Open Database connection
         db_connection = DatabaseConnection()
 
+        engine = db_connection.engine()
+        Product.metadata.create_all(engine)
+        # move above to FLyway migrations in follow up PR
+
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
         asyncio.run(startup(db_connection))
     except Exception as e:
         print(f"Error connecting to database: {e}")
-
-    # engine = db_connection.engine()
-    # Product.metadata.create_all(engine)
-    # move above to FLyway migrations in follow up PR
 
 
 if __name__ == "__main__":
