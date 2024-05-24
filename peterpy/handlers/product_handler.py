@@ -1,16 +1,10 @@
 import logging
 from uuid import UUID
 
-from aiohttp.web import Request, Response
+from aiohttp.web import Response
 
-from peterpy.services import ProductService
-from peterpy.services import ProductService
-
+from peterpy.interfaces import PeterRequest
 from peterpy.helpers import json_response
-
-
-class PeterRequest(Request):
-    product_service: ProductService
 
 
 async def list_products(request: PeterRequest) -> Response:

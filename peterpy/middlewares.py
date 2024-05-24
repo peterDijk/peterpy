@@ -1,14 +1,15 @@
 from aiohttp import web
 import logging
 
-from peterpy.database.connection import DatabaseConnection, DatabaseSession
-from peterpy.repositories.database_product_repository import DatabaseProductRepository
-from peterpy.services.product_service import ProductService
+from peterpy.database import DatabaseConnection, DatabaseSession
+from peterpy.interfaces import PeterRequest
+from peterpy.repositories import DatabaseProductRepository
+from peterpy.services import ProductService
 
 
 def db_session_wrapper_factory(db_connection: DatabaseConnection):
     @web.middleware
-    async def db_session_wrapper(request, handler):
+    async def db_session_wrapper(request: PeterRequest, handler):
         logging.debug("db_session_wrapper called")
         engine = db_connection.engine()
 
@@ -32,9 +33,3 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                 return web.json_response(status=500, text="Internal Server Error")
 
     return db_session_wrapper
-
-
-"""
-- if i pass the session to the handler, the handler will have to commit the session? 
-- if i pass the session to the handler, the handler has to create the repository and the service? the goal was to abstract this away from the handler
-"""

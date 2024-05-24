@@ -1,1 +1,1 @@
-from peterpy.database import connection
+from peterpy.database.connection import DatabaseConnection, DatabaseSession
