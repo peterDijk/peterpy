@@ -13,7 +13,7 @@ class ProductService:
     async def add(self, name: str, price: float):
         product = Product(name=name, price=price)
         logging.debug(f"Adding product {product}")
-        stored_product = self.repository.add(product)
+        stored_product = self.repository.add(product, flush=True)
 
         return stored_product
 

@@ -14,7 +14,7 @@ class IRepository(ABC, Generic[T]):
         raise NotImplementedError
 
     @abstractmethod
-    def add(self, obj: T) -> T:
+    def add(self, obj: T, flush: bool) -> T:
         raise NotImplementedError
 
     @abstractmethod

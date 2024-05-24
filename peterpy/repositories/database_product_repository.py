@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List
 from uuid import UUID
 
@@ -17,6 +18,9 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
     def __init__(self, session: Session):
         self.session = session
 
+    def flush(self):
+        self.session.flush()
+
     def get(self, product_id: UUID) -> ProductEntity:
         sql_statement = select(ProductModel).filter(
             ProductModel.product_id == str(product_id)
@@ -27,10 +31,18 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
 
         raise KeyError(f"Product with product_id {product_id} not found")
 
-    def add(self, obj: ProductEntity) -> ProductEntity:
-        instance = product_entity_to_model(obj)
-        self.session.add(instance)
-        # session.commit() is done in the middleware
+    def add(self, obj: ProductEntity, flush=False) -> ProductEntity:
+        try:
+            instance = product_entity_to_model(obj)
+            self.session.add(instance)
+
+            if flush:
+                self.session.flush()
+        except Exception as e:
+            raise ValueError(f"Could not add product")
+            # this does not pop up in the middleware Exception logging
+            # what is logged:
+            # This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (mysql.connector.errors.IntegrityError) 1062 (23000): Duplicate entry 'firstt' for key 'products.name'
 
         return obj
 

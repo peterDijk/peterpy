@@ -16,7 +16,7 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
             try:
                 repository = DatabaseProductRepository(session)
                 product_service = ProductService(repository)
-                request["product_service"] = product_service
+                request.product_service = product_service
 
                 response = await handler(request)
                 logging.debug("db_session_wrapper committing")
@@ -25,8 +25,8 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                 return response
             except Exception as e:
                 logging.error(
-                    "Exception happened in db_session_wrapper - rolling back",
-                    exc_info=e,
+                    "Exception happened in db_session_wrapper - rolling back. Exception: %s",
+                    e,
                 )
                 session.rollback()
                 return web.json_response(status=500, text="Internal Server Error")

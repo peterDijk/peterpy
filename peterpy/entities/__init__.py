@@ -1,1 +1,1 @@
-from peterpy.entities.product import Product, ProductEncoder
+from peterpy.entities.product import Product
