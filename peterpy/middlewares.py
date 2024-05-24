@@ -32,3 +32,9 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                 return web.json_response(status=500, text="Internal Server Error")
 
     return db_session_wrapper
+
+
+"""
+- if i pass the session to the handler, the handler will have to commit the session? 
+- if i pass the session to the handler, the handler has to create the repository and the service? the goal was to abstract this away from the handler
+"""
