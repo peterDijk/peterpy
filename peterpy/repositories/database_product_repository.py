@@ -32,17 +32,18 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
         raise KeyError(f"Product with product_id {product_id} not found")
 
     def add(self, obj: ProductEntity, flush=False) -> ProductEntity:
+        # raise ValueError(f"Could not add product")
+
         try:
             instance = product_entity_to_model(obj)
             self.session.add(instance)
 
             if flush:
                 self.session.flush()
+
         except Exception as e:
+            logging.error(f"From exc.IntegrityError: Could not add product: {e}")
             raise ValueError(f"Could not add product")
-            # this does not pop up in the middleware Exception logging
-            # what is logged:
-            # This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (mysql.connector.errors.IntegrityError) 1062 (23000): Duplicate entry 'firstt' for key 'products.name'
 
         return obj
 
