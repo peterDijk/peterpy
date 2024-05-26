@@ -5,6 +5,7 @@ from peterpy.database import DatabaseConnection, DatabaseSession
 from peterpy.interfaces import PeterRequest
 from peterpy.repositories import DatabaseProductRepository
 from peterpy.services import ProductService
+from peterpy.helpers import json_response
 
 
 def db_session_wrapper_factory(db_connection: DatabaseConnection):
@@ -30,6 +31,9 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                     e,
                 )
                 session.rollback()
-                return web.json_response(status=500, text="Internal Server Error")
+                return json_response(
+                    status=500,
+                    content={"message": "Internal Server Error", "error": str(e)},
+                )
 
     return db_session_wrapper

@@ -43,7 +43,10 @@ async def add_product(request: PeterRequest) -> Response:
     name = data.get("name")
     price = data.get("price")
 
-    product = await request.product_service.add(name, price)
+    try:
+        product = await request.product_service.add(name, price)
+    except:
+        raise ValueError("Failed to add product")
 
     return json_response(
         status=201,
