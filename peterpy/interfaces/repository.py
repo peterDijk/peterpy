@@ -1,4 +1,4 @@
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from typing import Dict, Generic, List, TypeVar
 from uuid import UUID
 
@@ -14,15 +14,15 @@ class IRepository(ABC, Generic[T]):
         raise NotImplementedError
 
     @abstractmethod
-    def add(self, obj: T) -> None:
+    def add(self, obj: T, flush: bool) -> T:
         raise NotImplementedError
 
     @abstractmethod
-    def update(self, obj: T) -> None:
+    def update(self, obj: T) -> T:
         raise NotImplementedError
 
     @abstractmethod
-    def remove(self, obj: T) -> None:
+    def remove(self, obj: T) -> T:
         raise NotImplementedError
 
     @abstractmethod
@@ -30,7 +30,7 @@ class IRepository(ABC, Generic[T]):
         raise NotImplementedError
 
     @abstractmethod
-    def find_one(self, _id: UUID) -> T:
+    def find_one(self, obj_id: UUID) -> T:
         raise NotImplementedError
 
     @abstractmethod
