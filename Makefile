@@ -8,3 +8,6 @@ lint:
 	poetry run bandit -r peterpy
 	poetry run mypy --no-strict-optional --ignore-missing-imports peterpy
 	poetry run pylint peterpy
+
+test:
+	poetry run pytest
