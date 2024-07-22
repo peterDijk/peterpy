@@ -3,10 +3,9 @@ from typing import Dict, List
 from uuid import UUID
 
 from sqlalchemy import select
-
+from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from sqlalchemy.orm import Session
 from peterpy.database.data_mapper import (
     product_entity_to_model,
     product_model_to_entity,
@@ -39,15 +38,12 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
             self.session.add(instance)
 
             if flush:
-                self.session.flush()
+                flush()
 
             return obj
         except IntegrityError as e:
             logging.error("Failed to add product: %s", e)
             raise ValueError("Failed to add product: IntegrityError")
-        except Exception as e:
-            logging.error("Failed to add product: %s", e)
-            raise ValueError("Failed to add product, other reason")
 
     # pylint: disable=unused-argument
     def update(self, obj: ProductEntity) -> ProductEntity:

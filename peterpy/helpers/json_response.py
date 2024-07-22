@@ -1,8 +1,9 @@
 import json
 from typing import Any, Dict
+
 from aiohttp.web import json_response as aiohttp_json_response
 
-from peterpy.helpers import PeterPyEncoder
+from peterpy.helpers.peterpy_encoder import PeterPyEncoder
 
 
 def json_response(status: int, content: Dict[str, Any], **kwargs):
