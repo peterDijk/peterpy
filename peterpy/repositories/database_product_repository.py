@@ -38,7 +38,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
             self.session.add(instance)
 
             if flush:
-                flush()
+                self.flush()
 
             return obj
         except IntegrityError as e:
