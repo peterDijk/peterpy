@@ -12,11 +12,6 @@ class TestHealthcheck(BaseHandlerTestCase):
         response = await self.client.request("GET", "/health")
 
         assert response.status == 200
-        # response_text = """
-        #     # HELP health_instance Instance health
-        #     # TYPE health_instance gauge
-        #     # PETERPY_VERSION: 0.1.0
-        #     health_instance{version="0.1.0"} 1.0
-        #     """
+        response_text = "ok"
 
-        # assert response.text == dedent(response_text)
+        assert response.text == response_text
