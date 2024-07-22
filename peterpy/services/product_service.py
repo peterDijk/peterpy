@@ -13,7 +13,12 @@ class ProductService:
     async def add(self, name: str, price: float):
         product = Product(name=name, price=price)
         logging.debug(f"Adding product {product}")
-        stored_product = self.repository.add(product, flush=True)
+
+        try:
+            stored_product = self.repository.add(product, flush=True)
+        except Exception as e:
+            logging.error("Repository exception: %s", e)
+            raise e
 
         return stored_product
 
