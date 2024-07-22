@@ -8,7 +8,7 @@ from signal import SIGINT, SIGTERM
 import uvloop
 from aiohttp import web
 
-from peterpy import __version__
+from peterpy import __version__, routes
 from peterpy.config import config, environment
 from peterpy.database.connection import DatabaseConnection
 from peterpy.database.models.product import Product
@@ -21,7 +21,7 @@ async def startup(db_connection: DatabaseConnection):
 
     # Web app
     http_app = web.Application(middlewares=[db_session_wrapper_factory(db_connection)])
-    setup_routes(http_app)
+    http_app.add_routes(routes)
     http_host = config["APP_HOST"]
     http_port = config["APP_PORT"]
 
@@ -42,15 +42,6 @@ async def startup(db_connection: DatabaseConnection):
     # Sleep forever (until shutdowns called) to handle HTTP
     while True:
         await asyncio.sleep(3600)
-
-
-def setup_routes(app: web.Application):
-    app.router.add_get("/health", health_handler.instance_health)
-    app.router.add_get("/", product_handler.get_dashboard)
-    app.router.add_get("/product/list", product_handler.list_products)
-    app.router.add_get("/product/{id}", product_handler.get_product)
-    app.router.add_post("/product", product_handler.add_product)
-    app.router.add_post("/products/", product_handler.add_products)
 
 
 async def shutdown(http_runner: web.AppRunner, db_connection: DatabaseConnection):

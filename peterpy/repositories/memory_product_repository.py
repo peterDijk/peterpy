@@ -16,7 +16,7 @@ class MemoryProductRepository(IRepository[Product]):
             raise KeyError(f"Product with product_id {product_id} not found")
         return self.items[product_id]
 
-    def add(self, obj: Product) -> Product:
+    def add(self, obj: Product, flush=False) -> Product:
         self.items[obj.product_id] = obj
 
         return obj

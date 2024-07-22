@@ -6,7 +6,6 @@ from aiohttp.web import Request, Response
 from peterpy import __version__, routes
 
 
-# pylint: disable=unused-argument
 @routes.get("/health")
 async def instance_health(request: Request) -> Response:
     logging.info("Health check requested from %s", request.remote)
