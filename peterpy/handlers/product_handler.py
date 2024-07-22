@@ -57,10 +57,7 @@ async def add_product(request: Request) -> Response:
     name = data.get("name")
     price = data.get("price")
 
-    try:
-        product = await request.product_service.add(name, price)
-    except:
-        raise ValueError("Failed to add product")
+    product = await request.product_service.add(name, price)
 
     return json_response(
         status=201,
@@ -83,15 +80,12 @@ async def add_products(request: Request) -> Response:
     data = await request.json()
     products = data.get("products")
 
-    try:
-        for product in products:
-            name = product.get("name")
-            price = product.get("price")
-            product = await request.product_service.add(name, price)
+    for product in products:
+        name = product.get("name")
+        price = product.get("price")
+        product = await request.product_service.add(name, price)
 
-        return json_response(status=201, content={"products": products})
-    except:
-        raise ValueError("1 or more products failed to add")
+    return json_response(status=201, content={"products": products})
 
 
 @routes.get("/")

@@ -14,11 +14,7 @@ class ProductService:
         product = Product(name=name, price=price)
         logging.debug(f"Adding product {product}")
 
-        try:
-            stored_product = self.repository.add(product, flush=True)
-        except Exception as e:
-            logging.error("Repository exception: %s", e)
-            raise e
+        stored_product = self.repository.add(product, flush=True)
 
         return stored_product
 

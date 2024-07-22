@@ -4,6 +4,7 @@ from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 from peterpy.database.data_mapper import (
     product_entity_to_model,
@@ -32,13 +33,17 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
         raise KeyError(f"Product with product_id {product_id} not found")
 
     def add(self, obj: ProductEntity, flush=False) -> ProductEntity:
-        instance = product_entity_to_model(obj)
-        self.session.add(instance)
+        try:
+            instance = product_entity_to_model(obj)
+            self.session.add(instance)
 
-        if flush:
-            self.flush()
+            if flush:
+                self.flush()
 
-        return obj
+            return obj
+        except IntegrityError as e:
+            logging.error("Failed to add product: %s", e)
+            raise ValueError("Failed to add product: IntegrityError")
 
     # pylint: disable=unused-argument
     def update(self, obj: ProductEntity) -> ProductEntity:
