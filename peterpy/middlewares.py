@@ -1,11 +1,12 @@
-from aiohttp import web
 import logging
 
+from aiohttp import web
+
 from peterpy.database import DatabaseConnection, DatabaseSession
+from peterpy.helpers import json_response
 from peterpy.interfaces import PeterRequest
 from peterpy.repositories import DatabaseProductRepository
 from peterpy.services import ProductService
-from peterpy.helpers import json_response
 
 
 def db_session_wrapper_factory(db_connection: DatabaseConnection):

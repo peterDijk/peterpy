@@ -1,7 +1,7 @@
 import logging
 from typing import Dict
-from peterpy.config import config
 
+from peterpy.config import config
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
 

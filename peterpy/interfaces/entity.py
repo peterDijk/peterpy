@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, List, TypeVar
 from dataclasses import dataclass
-
+from typing import Any, Dict, Generic, List, TypeVar
 from uuid import UUID
 
 T = TypeVar("T")

@@ -3,8 +3,8 @@ from typing import Dict, List
 from uuid import UUID
 
 from sqlalchemy import select
-
 from sqlalchemy.orm import Session
+
 from peterpy.database.data_mapper import (
     product_entity_to_model,
     product_model_to_entity,
@@ -36,7 +36,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
         self.session.add(instance)
 
         if flush:
-            self.session.flush()
+            flush()
 
         return obj
 
