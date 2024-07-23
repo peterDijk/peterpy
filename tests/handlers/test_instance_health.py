@@ -11,7 +11,7 @@ class TestHealthcheck(BaseHandlerTestCase):
         assert response.status == 200
 
         response_text = await response.text()
-        exptected_response_text = dedent(
+        expected_response_text = dedent(
             """
             # HELP health_instance Instance health
             # TYPE health_instance gauge
