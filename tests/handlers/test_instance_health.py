@@ -2,8 +2,6 @@ from textwrap import dedent
 
 from tests.handlers import BaseHandlerTestCase
 
-from peterpy.handlers import instance_health
-
 
 class TestHealthcheck(BaseHandlerTestCase):
     """Test healthcheck endpoint."""

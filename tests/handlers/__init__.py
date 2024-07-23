@@ -2,7 +2,6 @@ from aiohttp import web
 from aiohttp.test_utils import AioHTTPTestCase
 
 from peterpy import routes
-from peterpy.handlers import instance_health
 
 
 class BaseHandlerTestCase(AioHTTPTestCase):
