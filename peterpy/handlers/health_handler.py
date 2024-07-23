@@ -15,11 +15,8 @@ async def instance_health(request: Request) -> Response:
         # HELP health_instance Instance health
         # TYPE health_instance gauge
         # PETERPY_VERSION: {version}
-        health_instance{{version="{version}"}} 1.0        
-        
+        # health_instance{{version="{version}"}} 1.0
         """
     ).format(version=__version__)
 
-    simple_output = "ok"
-
-    return Response(status=200, body=simple_output)
+    return Response(status=200, body=output)

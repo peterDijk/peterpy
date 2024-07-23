@@ -13,6 +13,13 @@ class TestHealthcheck(BaseHandlerTestCase):
         assert response.status == 200
 
         response_text = await response.text()
-        exptected_response_text = "ok"
+        exptected_response_text = dedent(
+            """
+            # HELP health_instance Instance health
+            # TYPE health_instance gauge
+            # PETERPY_VERSION: 0.1.0
+            # health_instance{version="0.1.0"} 1.0
+            """
+        )
 
         assert response_text == exptected_response_text
