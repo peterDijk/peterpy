@@ -1,1 +1,1 @@
-from peterpy.handlers import health_handler, product_handler
+from peterpy.handlers.health_handler import instance_health
