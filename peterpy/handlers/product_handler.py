@@ -17,11 +17,9 @@ async def list_products(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
-    products = request.product_service.all()
+    products = list(request.product_service.all())
 
-    return json_response(
-        status=200, content={"products": products, "count": len(products)}
-    )
+    return json_response(status=200, content={"products": products})
 
 
 @routes.get("/product/{id}")

@@ -50,7 +50,7 @@ class ProductService:
 
     def all(self):
         generator_products = self.repository.all()
-        return list(generator_products)
+        return generator_products
 
     def count(self):
         return self.repository.count()
