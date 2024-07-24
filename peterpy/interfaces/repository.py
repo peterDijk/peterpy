@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Generic, List, TypeVar
+from typing import Dict, Generic, List, TypeVar, Generator
 from uuid import UUID
 
 T = TypeVar("T")
@@ -34,7 +34,7 @@ class IRepository(ABC, Generic[T]):
         raise NotImplementedError
 
     @abstractmethod
-    def all(self) -> List[T]:
+    def all(self) -> Generator[T, None, None]:
         raise NotImplementedError
 
     @abstractmethod

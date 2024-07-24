@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List
+from typing import Dict, List, Generator, Any
 from uuid import UUID
 
 from sqlalchemy import select
@@ -72,21 +72,15 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
     def find_one(self, obj_id: UUID) -> ProductEntity:
         raise NotImplementedError
 
-    def all(self) -> List[ProductEntity]:
+    def all(self) -> Generator[ProductEntity, None, None]:
         stmt = select(ProductModel).order_by(ProductModel.date_added.desc())
-        return [
-            product_model_to_entity(product[0])
-            for product in self.session.execute(stmt)
-        ]
+        for product in self.session.execute(stmt):
+            entity = product_model_to_entity(product[0])
+            yield entity
 
     def count(self) -> int:
-        stmt = select(ProductModel).order_by(ProductModel.date_added)
-        return len(
-            [
-                product_model_to_entity(product[0])
-                for product in self.session.execute(stmt)
-            ]
-        )
+        products = self.all()
+        return len(list(products))
 
     def clear(self) -> None:
         raise NotImplementedError

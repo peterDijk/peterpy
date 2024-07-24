@@ -49,7 +49,8 @@ class ProductService:
         return self.repository.find_one(product_id)
 
     def all(self):
-        return self.repository.all()
+        generator_products = self.repository.all()
+        return generator_products
 
     def count(self):
         return self.repository.count()

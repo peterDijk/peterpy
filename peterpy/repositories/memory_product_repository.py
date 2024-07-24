@@ -1,5 +1,5 @@
 import logging
-from typing import Dict
+from typing import Dict, Generator
 from uuid import UUID
 
 from peterpy.entities import Product
@@ -41,8 +41,9 @@ class MemoryProductRepository(IRepository[Product]):
     def find_one(self, obj_id: UUID) -> Product:
         return self.items[obj_id]
 
-    def all(self) -> list:
-        return list(self.items.values())
+    def all(self) -> Generator[Product, None, None]:
+        for product in self.items.values():
+            yield product
 
     def count(self) -> int:
         return len(self.items)
