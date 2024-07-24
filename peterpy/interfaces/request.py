@@ -4,7 +4,7 @@ from peterpy.services import ProductService
 
 
 class PeterRequest(Request):
-    product_service: ProductService
+    product_service: ProductService | None = None
 
     def __init__(self, request: Request):
         super().__init__(

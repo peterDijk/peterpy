@@ -19,4 +19,4 @@ async def instance_health(request: Request) -> Response:
         """
     ).format(version=__version__)
 
-    return Response(status=200, body=output)
+    return Response(status=200, text=output)
