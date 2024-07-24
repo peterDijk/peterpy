@@ -20,4 +20,4 @@ class TestHealthcheck(BaseHandlerTestCase):
             """
         )
 
-        assert response_text == exptected_response_text
+        assert response_text == expected_response_text
