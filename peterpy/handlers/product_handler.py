@@ -8,10 +8,7 @@ from peterpy.helpers import json_response
 from peterpy.interfaces import PeterRequest
 
 
-async def list_products(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request must be an instance of PeterRequest")
-
+async def list_products(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
@@ -27,10 +24,7 @@ async def list_products(request: Request) -> Response:
     return json_response(status=200, content={"products": products})
 
 
-async def get_product(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request must be an instance of PeterRequest")
-
+async def get_product(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Get one product requested from %s", request.remote)
 
@@ -47,10 +41,7 @@ async def get_product(request: Request) -> Response:
     return json_response(status=200, content={"product": product})
 
 
-async def add_product(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request must be an instance of PeterRequest")
-
+async def add_product(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Add product requested from %s", request.remote)
 
@@ -68,10 +59,7 @@ async def add_product(request: Request) -> Response:
 
 # Add this to show adding batch of products, while only
 # committing at the end of the batch in the middleware
-async def add_products(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request must be an instance of PeterRequest")
-
+async def add_products(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Add multiple products requested from %s", request.remote)
 
@@ -86,10 +74,7 @@ async def add_products(request: Request) -> Response:
     return json_response(status=201, content={"products": products})
 
 
-async def get_dashboard(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request must be an instance of PeterRequest")
-
+async def get_dashboard(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
