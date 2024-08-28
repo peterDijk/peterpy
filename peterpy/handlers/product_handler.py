@@ -8,25 +8,23 @@ from peterpy.helpers import json_response
 from peterpy.interfaces import PeterRequest
 
 
-@routes.get("/product/list")
-async def list_products(request: Request) -> Response:
-    # TODO: Can I extend `routes` to have a `PeterRequest` type?
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not a PeterRequest")
-
+async def list_products(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
+    # converting the products to a list here
+    # removes the memory advantage of using a generator
+    # really using the benefits of a generator would be to use it
+    # in the json encoder, which would then iterate over the generator
+    # and stream the response items one by one back to the client
+
+    # TODO: investigate how to stream the response item by item back to the client
     products = list(request.product_service.all())
 
     return json_response(status=200, content={"products": products})
 
 
-@routes.get("/product/{id}")
-async def get_product(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not a PeterRequest")
-
+async def get_product(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Get one product requested from %s", request.remote)
 
@@ -43,11 +41,7 @@ async def get_product(request: Request) -> Response:
     return json_response(status=200, content={"product": product})
 
 
-@routes.post("/product")
-async def add_product(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not a PeterRequest")
-
+async def add_product(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Add product requested from %s", request.remote)
 
@@ -65,13 +59,7 @@ async def add_product(request: Request) -> Response:
 
 # Add this to show adding batch of products, while only
 # committing at the end of the batch in the middleware
-
-
-@routes.post("/products/")
-async def add_products(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not a PeterRequest")
-
+async def add_products(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Add multiple products requested from %s", request.remote)
 
@@ -86,11 +74,7 @@ async def add_products(request: Request) -> Response:
     return json_response(status=201, content={"products": products})
 
 
-@routes.get("/")
-async def get_dashboard(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not a PeterRequest")
-
+async def get_dashboard(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
