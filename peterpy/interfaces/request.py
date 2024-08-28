@@ -1,4 +1,4 @@
-from aiohttp.web import Request, BaseRequest
+from aiohttp.web import BaseRequest, Request
 
 from peterpy.services import ProductService
 

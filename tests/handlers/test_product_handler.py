@@ -1,11 +1,9 @@
 import json
 from unittest.mock import MagicMock
 
-from peterpy.interfaces.request import PeterRequest
 from peterpy.entities import Product
-
 from peterpy.handlers.product_handler import list_products
-
+from peterpy.interfaces.request import PeterRequest
 from tests.handlers import BaseHandlerTestCase
 from tests.helpers import create_uuid_from_string
 
