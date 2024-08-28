@@ -30,3 +30,4 @@ class TestHealthcheck(BaseHandlerTestCase):
         assert response.status == 200
         response_json = json.loads(response.text)
         assert response_json["products"][0]["name"] == "product_1"
+        assert response_json["products"][1]["name"] == "product_2"
