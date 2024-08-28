@@ -4,6 +4,7 @@ from unittest.mock import Mock, MagicMock
 from aiohttp.web import Request
 from peterpy.interfaces.request import PeterRequest
 from tests.handlers import BaseHandlerTestCase
+from peterpy.handlers.health_handler import instance_health
 
 
 class TestHealthcheck(BaseHandlerTestCase):
@@ -26,7 +27,6 @@ class TestHealthcheck(BaseHandlerTestCase):
         assert response_text == expected_response_text
 
     async def test_unit_health_check(self):
-        from peterpy.handlers.health_handler import instance_health
 
         request = MagicMock(spec=PeterRequest)
         request.product_service.all.return_value = []
@@ -36,7 +36,7 @@ class TestHealthcheck(BaseHandlerTestCase):
 
         # different because now we are testing the method and its output. above test we use the client which is an integration test which uses async getting the text
         response_text = response.text
-        exptected_response_text = dedent(
+        expected_response_text = dedent(
             """
             # HELP health_instance Instance health
             # TYPE health_instance gauge
@@ -45,4 +45,4 @@ class TestHealthcheck(BaseHandlerTestCase):
             """
         )
 
-        assert response_text == exptected_response_text
+        assert response_text == expected_response_text
