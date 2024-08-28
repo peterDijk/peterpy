@@ -1,5 +1,6 @@
 from aiohttp.web import BaseRequest, Request
 
+from peterpy.repositories.memory_product_repository import MemoryProductRepository
 from peterpy.services import ProductService
 
 

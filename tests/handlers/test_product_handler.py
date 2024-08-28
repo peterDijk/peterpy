@@ -20,7 +20,7 @@ def products_generator():
     yield product_2
 
 
-class TestHealthcheck(BaseHandlerTestCase):
+class TestProductHandlers(BaseHandlerTestCase):
     async def test_list_products(self):
         request = MagicMock(spec=PeterRequest)
         request.product_service.all.return_value = products_generator()
