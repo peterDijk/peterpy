@@ -24,6 +24,8 @@ class DatabaseConnection:
 
 
 class DatabaseSession:
+    session: Session
+
     def __init__(self, engine: Engine):
         self.engine = engine
 
