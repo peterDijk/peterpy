@@ -1,10 +1,10 @@
-from aiohttp.web import Request, BaseRequest
+from aiohttp.web import BaseRequest, Request
 
 from peterpy.services import ProductService
 
 
 class PeterRequest(Request):
-    product_service: ProductService | None = None
+    product_service: ProductService
 
     def __init__(self, request: Request):
         super().__init__(

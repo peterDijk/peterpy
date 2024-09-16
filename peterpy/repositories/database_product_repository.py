@@ -1,10 +1,10 @@
 import logging
-from typing import Dict, List, Generator, Any
+from typing import Any, Dict, Generator, List
 from uuid import UUID
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 from peterpy.database.data_mapper import (
     product_entity_to_model,
