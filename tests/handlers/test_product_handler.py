@@ -1,6 +1,6 @@
 import json
 import pytest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, AsyncMock, AsyncMockMixin
 
 from peterpy.entities import Product
 from peterpy.handlers.product_handler import list_products, add_product
@@ -18,7 +18,7 @@ product_2 = Product(
 product_added_request = Product(
     product_id=create_uuid_from_string("product_added_request"),
     name="product_added_request",
-    price=20.0,
+    price=10.0,
 )
 
 
@@ -38,15 +38,18 @@ class TestProductHandlers(BaseHandlerTestCase):
         assert response_json["products"][0]["name"] == "product_1"
         assert response_json["products"][1]["name"] == "product_2"
 
-    # @pytest.mark.asyncio()
-    @pytest.mark.skip()
+    # @pytest.mark.skip()
+    @pytest.mark.asyncio()
     async def test_add_product(self):
         request = MagicMock(spec=PeterRequest)
         request.product_service = MagicMock(spec=ProductService)
 
-        # request.body = {"name": "product_added_request", "price": 10.0}
+        request.body = {"name": "product_added_request", "price": 10.0}
 
-        request.product_service.add.return_value = product_added_request
+        request.product_service.add = AsyncMock(return_value=product_added_request)
         response = await add_product(request)
-        assert response.status == 201
         request.product_service.add.assert_awaited_once()
+        request.product_service.add.assert_called_with(
+            AsyncMockMixin("product_added_request", 10.0)
+        )  # "product_added_request", 10.0
+        assert response.status == 201
