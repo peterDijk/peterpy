@@ -60,11 +60,6 @@ async def add_product(request: Request) -> Response:
         name = data.get("name")
         price = data.get("price")
 
-        print("NAME", name)
-        print("PRICE", price)
-
-        print("request.product_service", request.product_service)
-
         product = await request.product_service.add(name, price)
 
         return json_response(

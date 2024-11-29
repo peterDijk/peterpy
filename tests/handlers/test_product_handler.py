@@ -29,7 +29,6 @@ def products_generator():
 
 
 class TestProductHandlers(BaseHandlerTestCase):
-    @pytest.mark.skip
     @pytest.mark.asyncio
     async def test_list_products(self):
         request = Mock(spec=PeterRequest)
@@ -41,7 +40,6 @@ class TestProductHandlers(BaseHandlerTestCase):
         assert response_json["products"][0]["name"] == "product_1"
         assert response_json["products"][1]["name"] == "product_2"
 
-    @pytest.mark.skip
     @pytest.mark.asyncio
     async def test_add_product(self):
         """
@@ -73,47 +71,3 @@ class TestProductHandlers(BaseHandlerTestCase):
                 "price": 10.0,
             }
         }
-
-    @pytest.mark.asyncio
-    @patch("peterpy.services.product_service.ProductService")
-    async def test_add_product_by_client(self, service_mock):
-        service_mock.add = AsyncMock(return_value=product_added_request)
-        response = await self.client.request(
-            "POST",
-            "/product",
-            json={"name": "product_added_request", "price": 10.0},
-        )
-
-        assert response.status == 201
-        # response_json = await response.json()
-        # assert response_json["product"]["name"] == "product_added_request"
-        # assert response_json["product"]["price"] == 10.0
-        # assert response_json["product"]["product_id"] is not None
-        # assert response_json["product"]["product_id"] != ""
-
-        # # check if the product was added to the database
-        # response = await self.client.request("GET", "/products")
-        # assert response.status == 200
-        # response_json = await response.json()
-        # assert len(response_json["products"]) == 1
-        # assert response_json["products"][0]["name"] == "product_added_request"
-        # assert response_json["products"][0]["price"] == 10.0
-        # assert (
-        #     response_json["products"][0]["product_id"]
-        #     == response_json["product"]["product_id"]
-        # )
-        # assert response_json["products"][0]["product_id"] != ""
-
-        # # check if the product can be retrieved by id
-        # response = await self.client.request(
-        #     "GET", f"/products/{response_json['product']['product_id']}"
-        # )
-        # assert response.status == 200
-        # response_json = await response.json()
-        # assert response_json["product"]["name"] == "product_added_request"
-        # assert response_json["product"]["price"] == 10.0
-        # assert (
-        #     response_json["product"]["product_id"]
-        #     == response_json["product"]["product_id"]
-        # )
-        # assert response_json["product"]["product_id"] != ""

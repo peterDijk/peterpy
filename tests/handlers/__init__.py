@@ -12,9 +12,7 @@ from peterpy.middlewares import db_session_wrapper_factory
 class BaseHandlerTestCase(AioHTTPTestCase):
 
     async def get_application(self):
-        print("get_application called")
-        db_connection = Mock(spec=DatabaseConnection)
-        app = web.Application(middlewares=[db_session_wrapper_factory(db_connection)])
+        app = web.Application()
         setup_routes(app)
 
         return app
