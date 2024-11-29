@@ -49,7 +49,6 @@ async def get_product(request: Request) -> Response:
 
 async def add_product(request: Request) -> Response:
     try:
-        print("IN REQUEST", request)
         if not isinstance(request, PeterRequest):
             raise ValueError("Request is not of type PeterRequest")
 
@@ -60,12 +59,11 @@ async def add_product(request: Request) -> Response:
         name = data.get("name")
         price = data.get("price")
 
-        print("NAME", name)
-        print("PRICE", price)
-
         print("request.product_service", request.product_service)
 
         product = await request.product_service.add(name, price)
+
+        print("request.product_service.add", request.product_service.add)
 
         return json_response(
             status=201,

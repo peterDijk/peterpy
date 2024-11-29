@@ -15,19 +15,14 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
     async def db_session_wrapper(request: Request, handler):
         logging.debug("db_session_wrapper called")
 
-        print("db_connection", db_connection)
         engine = db_connection.engine()
-
         peter_request = PeterRequest(request)
 
         with DatabaseSession(engine) as session:
-            print("session", session)
             try:
                 repository = DatabaseProductRepository(session)
                 product_service = ProductService(repository)
                 peter_request.product_service = product_service
-
-                print("peter_request", peter_request)
 
                 response = await handler(peter_request)
                 logging.debug("db_session_wrapper committing")

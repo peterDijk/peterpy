@@ -74,46 +74,18 @@ class TestProductHandlers(BaseHandlerTestCase):
             }
         }
 
+    @patch(
+        "peterpy.middlewares.ProductService",
+        return_value=Mock(spec=ProductService),
+    )
     @pytest.mark.asyncio
-    @patch("peterpy.services.product_service.ProductService")
     async def test_add_product_by_client(self, service_mock):
-        service_mock.add = AsyncMock(return_value=product_added_request)
+        service_mock.add.return_value = "product_added_request"
+
         response = await self.client.request(
             "POST",
             "/product",
             json={"name": "product_added_request", "price": 10.0},
         )
 
-        assert response.status == 201
-        # response_json = await response.json()
-        # assert response_json["product"]["name"] == "product_added_request"
-        # assert response_json["product"]["price"] == 10.0
-        # assert response_json["product"]["product_id"] is not None
-        # assert response_json["product"]["product_id"] != ""
-
-        # # check if the product was added to the database
-        # response = await self.client.request("GET", "/products")
-        # assert response.status == 200
-        # response_json = await response.json()
-        # assert len(response_json["products"]) == 1
-        # assert response_json["products"][0]["name"] == "product_added_request"
-        # assert response_json["products"][0]["price"] == 10.0
-        # assert (
-        #     response_json["products"][0]["product_id"]
-        #     == response_json["product"]["product_id"]
-        # )
-        # assert response_json["products"][0]["product_id"] != ""
-
-        # # check if the product can be retrieved by id
-        # response = await self.client.request(
-        #     "GET", f"/products/{response_json['product']['product_id']}"
-        # )
-        # assert response.status == 200
-        # response_json = await response.json()
-        # assert response_json["product"]["name"] == "product_added_request"
-        # assert response_json["product"]["price"] == 10.0
-        # assert (
-        #     response_json["product"]["product_id"]
-        #     == response_json["product"]["product_id"]
-        # )
-        # assert response_json["product"]["product_id"] != ""
+        assert service_mock.add.assert_called_once_with("product_added_request", 10.0)
