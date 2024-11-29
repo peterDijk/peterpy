@@ -64,6 +64,7 @@ async def add_product(request: Request) -> Response:
         product = await request.product_service.add(name, price)
 
         print("request.product_service.add", request.product_service.add)
+        print("product", product)
 
         return json_response(
             status=201,

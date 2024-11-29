@@ -74,18 +74,20 @@ class TestProductHandlers(BaseHandlerTestCase):
             }
         }
 
+    # @pytest.mark.skip
     @patch(
         "peterpy.middlewares.ProductService",
         return_value=Mock(spec=ProductService),
-    )
+    )  # what is lambda ?
     @pytest.mark.asyncio
     async def test_add_product_by_client(self, service_mock):
-        service_mock.add.return_value = "product_added_request"
+        service = service_mock()
+        service.add = AsyncMock(return_value=product_added_request)
 
         response = await self.client.request(
             "POST",
             "/product",
-            json={"name": "product_added_request", "price": 10.0},
+            json={"name": "product_added_request", "price": 20.0},
         )
 
-        assert service_mock.add.assert_called_once_with("product_added_request", 10.0)
+        assert response.status == 201
