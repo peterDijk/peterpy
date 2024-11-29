@@ -49,7 +49,6 @@ async def get_product(request: Request) -> Response:
 
 async def add_product(request: Request) -> Response:
     try:
-        print("IN REQUEST", request)
         if not isinstance(request, PeterRequest):
             raise ValueError("Request is not of type PeterRequest")
 
@@ -67,7 +66,6 @@ async def add_product(request: Request) -> Response:
             content={"product": product},
         )
     except Exception as e:
-        print("ERROR", e)
         return json_response(status=500, content={"error": str(e)})
 
 

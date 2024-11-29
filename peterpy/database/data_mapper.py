@@ -16,5 +16,5 @@ def product_entity_to_model(product_entity: ProductEntity) -> ProductModel:
     return ProductModel(
         product_id=str(product_entity.product_id),
         name=product_entity.name,
-        price=product_entity.price,
+        price=int(product_entity.price),
     )
