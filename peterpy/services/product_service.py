@@ -8,12 +8,10 @@ from peterpy.interfaces import IRepository
 
 class ProductService:
     def __init__(self, repository: IRepository[Product]):
-        print("repository", repository)
         self.repository = repository
 
     async def add(self, name: str, price: float):
         try:
-            print("ProductService.add : name", name)
             product = Product(name=name, price=price)
             logging.debug(f"Adding product {product}")
 
@@ -21,7 +19,8 @@ class ProductService:
 
             return stored_product
         except Exception as e:
-            print("ERROR add", e)
+            logging.error(f"Error adding product: {e}")
+            raise e
 
     def update(self, product_id, name, price):
         product = self.repository.get(product_id)

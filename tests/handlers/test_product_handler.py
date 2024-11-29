@@ -29,7 +29,6 @@ def products_generator():
 
 
 class TestProductHandlers(BaseHandlerTestCase):
-    @pytest.mark.skip
     @pytest.mark.asyncio
     async def test_list_products(self):
         request = Mock(spec=PeterRequest)
@@ -41,9 +40,8 @@ class TestProductHandlers(BaseHandlerTestCase):
         assert response_json["products"][0]["name"] == "product_1"
         assert response_json["products"][1]["name"] == "product_2"
 
-    @pytest.mark.skip
     @pytest.mark.asyncio
-    async def test_add_product(self):
+    async def test_add_product_unit(self):
         """
         I would like to test the handler using the aiohttp test client,
         but because of the implementation of adding the service to the request
@@ -74,20 +72,41 @@ class TestProductHandlers(BaseHandlerTestCase):
             }
         }
 
-    # @pytest.mark.skip
     @patch(
         "peterpy.middlewares.ProductService",
         return_value=Mock(spec=ProductService),
     )  # what is lambda ?
     @pytest.mark.asyncio
-    async def test_add_product_by_client(self, service_mock):
-        service = service_mock()
-        service.add = AsyncMock(return_value=product_added_request)
+    async def test_add_product_integration(self, service_class_mock):
+        service = service_class_mock()
+        product_added_request_integration = Product(
+            product_id=product_added_id,
+            name="product_added_request",
+            price=20.0,
+        )
+
+        service.add = AsyncMock(return_value=product_added_request_integration)
 
         response = await self.client.request(
             "POST",
             "/product",
-            json={"name": "product_added_request", "price": 20.0},
+            json={
+                "name": product_added_request_integration.name,
+                "price": product_added_request_integration.price,
+            },
+        )
+
+        service.add.assert_called_once_with(
+            product_added_request_integration.name,
+            product_added_request_integration.price,
         )
 
         assert response.status == 201
+        response_body = await response.text()
+        assert json.loads(response_body) == {
+            "product": {
+                "product_id": str(product_added_id),
+                "name": product_added_request_integration.name,
+                "price": product_added_request_integration.price,
+            }
+        }

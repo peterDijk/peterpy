@@ -59,19 +59,13 @@ async def add_product(request: Request) -> Response:
         name = data.get("name")
         price = data.get("price")
 
-        print("request.product_service", request.product_service)
-
         product = await request.product_service.add(name, price)
-
-        print("request.product_service.add", request.product_service.add)
-        print("product", product)
 
         return json_response(
             status=201,
             content={"product": product},
         )
     except Exception as e:
-        print("ERROR", e)
         return json_response(status=500, content={"error": str(e)})
 
 
