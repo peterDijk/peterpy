@@ -48,22 +48,32 @@ async def get_product(request: Request) -> Response:
 
 
 async def add_product(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not of type PeterRequest")
+    try:
+        print("IN REQUEST", request)
+        if not isinstance(request, PeterRequest):
+            raise ValueError("Request is not of type PeterRequest")
 
-    logging.debug("---------------------------------")
-    logging.info("Add product requested from %s", request.remote)
+        logging.debug("---------------------------------")
+        logging.info("Add product requested from %s", request.remote)
 
-    data = await request.json()
-    name = data.get("name")
-    price = data.get("price")
+        data = await request.json()
+        name = data.get("name")
+        price = data.get("price")
 
-    product = await request.product_service.add(name, price)
+        print("NAME", name)
+        print("PRICE", price)
 
-    return json_response(
-        status=201,
-        content={"product": product},
-    )
+        print("request.product_service", request.product_service)
+
+        product = await request.product_service.add(name, price)
+
+        return json_response(
+            status=201,
+            content={"product": product},
+        )
+    except Exception as e:
+        print("ERROR", e)
+        return json_response(status=500, content={"error": str(e)})
 
 
 # Add this to show adding batch of products, while only

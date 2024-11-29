@@ -8,10 +8,10 @@ class PeterRequest(Request):
 
     def __init__(self, request: Request):
         super().__init__(
-            request.message,
+            request._message,
             request._payload,
             request.protocol,
             request._payload_writer,
             request.task,
-            request.loop,
+            request._loop,
         )
