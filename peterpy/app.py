@@ -8,7 +8,7 @@ from signal import SIGINT, SIGTERM
 import uvloop
 from aiohttp import web
 
-from peterpy import __version__, routes
+from peterpy import __version__
 from peterpy.config import config, environment
 from peterpy.database.connection import DatabaseConnection
 from peterpy.database.models.product import Product
@@ -82,6 +82,7 @@ def main():
 
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
         asyncio.run(startup(db_connection))
+    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error connecting to database: {e}")
 

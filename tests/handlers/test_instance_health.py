@@ -1,10 +1,12 @@
 from textwrap import dedent
-from unittest.mock import Mock, MagicMock
+from unittest.mock import MagicMock, Mock
 
 from aiohttp.web import Request
-from peterpy.interfaces.request import PeterRequest
-from tests.handlers import BaseHandlerTestCase
+
 from peterpy.handlers.health_handler import instance_health
+from peterpy.interfaces.request import PeterRequest
+from peterpy.services.product_service import ProductService
+from tests.handlers import BaseHandlerTestCase
 
 
 class TestHealthcheck(BaseHandlerTestCase):
@@ -29,6 +31,7 @@ class TestHealthcheck(BaseHandlerTestCase):
     async def test_unit_health_check(self):
 
         request = MagicMock(spec=PeterRequest)
+        request.product_service = MagicMock(spec=ProductService)
         request.product_service.all.return_value = []
         response = await instance_health(request)
 

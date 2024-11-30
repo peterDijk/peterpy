@@ -29,9 +29,11 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
                 session.commit()
                 logging.debug("db_session_wrapper finished")
                 return response
+            # pylint: disable=broad-except
             except Exception as e:
                 logging.error(
-                    "Exception happened in db_session_wrapper - rolling back. Exception: %s",
+                    "Exception happened in db_session_wrapper - rolling back. "
+                    "Exception: %s",
                     e,
                 )
                 session.rollback()

@@ -1,10 +1,10 @@
 import logging
-from typing import Dict, List, Generator, Any
+from typing import Dict, Generator, List
 from uuid import UUID
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 from peterpy.database.data_mapper import (
     product_entity_to_model,
@@ -43,7 +43,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
             return obj
         except IntegrityError as e:
             logging.error("Failed to add product: %s", e)
-            raise ValueError("Failed to add product: IntegrityError")
+            raise ValueError("Failed to add product: IntegrityError") from e
 
     # pylint: disable=unused-argument
     def update(self, obj: ProductEntity) -> ProductEntity:
