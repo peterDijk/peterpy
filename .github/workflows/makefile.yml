@@ -24,3 +24,6 @@ jobs:
 
     - name: Run tests
       run: poetry run pytest
+
+    - name: Run linters
+      run: make lint
