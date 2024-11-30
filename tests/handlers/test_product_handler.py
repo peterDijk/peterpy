@@ -43,12 +43,6 @@ class TestProductHandlers(BaseHandlerTestCase):
 
     @pytest.mark.asyncio
     async def test_add_product_unit(self):
-        """
-        I would like to test the handler using the aiohttp test client,
-        but because of the implementation of adding the service to the request
-        in the middleware wrapper, that would be complicated.
-        I would have to construct the middleware,
-        """
         request = Mock(spec=PeterRequest)
         request.product_service = Mock(spec=ProductService)
         request.json.return_value = {
@@ -79,6 +73,11 @@ class TestProductHandlers(BaseHandlerTestCase):
     )  # what is lambda ?
     @pytest.mark.asyncio
     async def test_add_product_integration(self, service_class_mock):
+        """
+        Test add product integration including the client,
+        but mocking the service that is injected into the request
+        in the middleware.
+        ."""
         service = service_class_mock()
         product_added_request_integration = Product(
             product_id=product_added_id,
@@ -112,26 +111,55 @@ class TestProductHandlers(BaseHandlerTestCase):
             }
         }
 
-    @patch(
-        "peterpy.middlewares.ProductService",
-        return_value=Mock(spec=ProductService),
-    )
     @pytest.mark.asyncio
-    async def test_dashboard_integration(self, service_class_mock):
-        service = service_class_mock()
-        service.count = Mock(return_value=2)
-        service.all = Mock(return_value=products_generator())
+    async def test_add_products_and_dashboard_integration(self):
+        """
+        Test add products and dashboard full integration, without any mocks
+        from making the request to the client, where the service
+        is setup correctly using the repository which is setup
+        in the middleware using the connection that is setup
+        using Sqlite setup in the BaseHandlerTestCase.
+        """
+        product_added_request_integration = Product(
+            product_id=create_uuid_from_string("product_added_request-1"),
+            name="product_added_request",
+            price=20.0,
+        )
+        product_added_request_integration2 = Product(
+            product_id=create_uuid_from_string("product_added_request-2"),
+            name="product_added_request 2",
+            price=50.0,
+        )
 
         response = await self.client.request(
+            "POST",
+            "/products",
+            json={
+                "products": [
+                    {
+                        "name": product_added_request_integration.name,
+                        "price": product_added_request_integration.price,
+                    },
+                    {
+                        "name": product_added_request_integration2.name,
+                        "price": product_added_request_integration2.price,
+                    },
+                ]
+            },
+        )
+
+        assert response.status == 201
+
+        response_dash = await self.client.request(
             "GET",
             "/",
         )
 
-        assert response.status == 200
-        response_body = await response.text()
+        assert response_dash.status == 200
+        response_body = await response_dash.text()
         assert json.loads(response_body) == {
             "dashboard": {
                 "products_count": 2,
-                "products_total_value": 30.0,
+                "products_total_value": 70.0,
             }
         }
