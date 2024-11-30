@@ -111,3 +111,27 @@ class TestProductHandlers(BaseHandlerTestCase):
                 "price": product_added_request_integration.price,
             }
         }
+
+    @patch(
+        "peterpy.middlewares.ProductService",
+        return_value=Mock(spec=ProductService),
+    )
+    @pytest.mark.asyncio
+    async def test_dashboard_integration(self, service_class_mock):
+        service = service_class_mock()
+        service.count = Mock(return_value=2)
+        service.all = Mock(return_value=products_generator())
+
+        response = await self.client.request(
+            "GET",
+            "/",
+        )
+
+        assert response.status == 200
+        response_body = await response.text()
+        assert json.loads(response_body) == {
+            "dashboard": {
+                "products_count": 2,
+                "products_total_value": 30.0,
+            }
+        }

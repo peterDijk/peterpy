@@ -96,7 +96,9 @@ async def get_dashboard(request: Request) -> Response:
 
     products_count = request.product_service.count()
     products = request.product_service.all()
-    products_total_value = sum([product.price for product in products])
+    # products_total_value = sum([product.price for product in products])
+    # below version is more efficient because it uses a generator expression
+    products_total_value = sum(product.price for product in products)
 
     output = {
         "products_count": products_count,
