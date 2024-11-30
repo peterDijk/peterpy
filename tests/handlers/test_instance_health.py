@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, Mock
 from aiohttp.web import Request
 
 from peterpy.handlers.health_handler import instance_health
-from peterpy.interfaces.request import PeterRequest
+from peterpy.helpers import PeterRequest
 from peterpy.services.product_service import ProductService
 from tests.handlers import BaseHandlerTestCase
 

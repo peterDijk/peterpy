@@ -5,7 +5,7 @@ import pytest
 
 from peterpy.entities import Product
 from peterpy.handlers.product_handler import add_product, list_products
-from peterpy.interfaces.request import PeterRequest
+from peterpy.helpers import PeterRequest
 from peterpy.services.product_service import ProductService
 from tests.handlers import BaseHandlerTestCase
 from tests.helpers import create_uuid_from_string

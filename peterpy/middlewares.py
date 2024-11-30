@@ -4,8 +4,7 @@ from aiohttp import web
 from aiohttp.web import Request
 
 from peterpy.database import DatabaseConnection, DatabaseSession
-from peterpy.helpers import json_response
-from peterpy.interfaces import PeterRequest
+from peterpy.helpers import json_response, PeterRequest
 from peterpy.repositories import DatabaseProductRepository
 from peterpy.services import ProductService
 

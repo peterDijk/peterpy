@@ -42,8 +42,9 @@ class MemoryProductRepository(IRepository[Product]):
         return self.items[obj_id]
 
     def all(self) -> Generator[Product, None, None]:
-        for product in self.items.values():
-            yield product
+        # for product in self.items.values():
+        #     yield product
+        yield from self.items.values()
 
     def count(self) -> int:
         return len(self.items)
