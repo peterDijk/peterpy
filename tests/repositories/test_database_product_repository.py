@@ -15,12 +15,10 @@ def session():
     if not engine.url.get_backend_name() == "sqlite":
         raise RuntimeError("Use SQLite backend to run tests")
 
-    Base.metadata.create_all(
-        engine
-    )  # metadata stores all the tables created by the base model.
+    Base.metadata.create_all(engine)
     try:
         with DatabaseSession(engine) as session:
-            yield session  # how does yield work here?
+            yield session
     finally:
         Base.metadata.drop_all(engine)
 
