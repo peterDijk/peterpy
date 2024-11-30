@@ -5,6 +5,7 @@ from sqlalchemy import BigInteger, Column, DateTime, String
 from peterpy.database.models.base import Base
 
 
+# pylint: disable=too-few-public-methods
 class Product(Base):
     __tablename__ = "products"
 
@@ -14,5 +15,7 @@ class Product(Base):
     date_added = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     def __repr__(self) -> str:
-        # pylint: disable=line-too-long
-        return f"Product(id={self.product_id!r}, name={self.name!r}, price={self.price!r}, date_added={self.date_added!r})"
+        return (
+            f"Product(id={self.product_id!r}, name={self.name!r}, "
+            "price={self.price!r}, date_added={self.date_added!r})"
+        )

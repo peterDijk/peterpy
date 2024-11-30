@@ -82,6 +82,7 @@ def main():
 
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
         asyncio.run(startup(db_connection))
+    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error connecting to database: {e}")
 

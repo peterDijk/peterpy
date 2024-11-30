@@ -5,7 +5,11 @@ from sqlalchemy.orm import Session
 
 from peterpy.config import config
 
-connection_string = f"mysql+mysqlconnector://root:{config["MYSQL_ROOT_PASSWORD"]}@{config["MYSQL_HOST"]}:{config["MYSQL_TCP_PORT"]}/{config["MYSQL_DATABASE"]}"
+connection_string = (
+    f"mysql+mysqlconnector://root:{config['MYSQL_ROOT_PASSWORD']}"
+    f"@{config['MYSQL_HOST']}:{config['MYSQL_TCP_PORT']}"
+    f"/{config['MYSQL_DATABASE']}"
+)
 
 
 class DatabaseConnection:

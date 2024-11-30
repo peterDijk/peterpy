@@ -3,7 +3,6 @@ from uuid import UUID
 
 from aiohttp.web import Request, Response
 
-from peterpy import routes
 from peterpy.helpers import json_response
 from peterpy.interfaces import PeterRequest
 
@@ -65,7 +64,7 @@ async def add_product(request: Request) -> Response:
             status=201,
             content={"product": product},
         )
-    except Exception as e:
+    except ValueError as e:
         return json_response(status=500, content={"error": str(e)})
 
 

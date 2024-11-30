@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, Generator, List
+from typing import Dict, Generator, List
 from uuid import UUID
 
 from sqlalchemy import select
@@ -43,7 +43,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
             return obj
         except IntegrityError as e:
             logging.error("Failed to add product: %s", e)
-            raise ValueError("Failed to add product: IntegrityError")
+            raise ValueError("Failed to add product: IntegrityError") from e
 
     # pylint: disable=unused-argument
     def update(self, obj: ProductEntity) -> ProductEntity:

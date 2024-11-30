@@ -1,7 +1,6 @@
 import logging
 from typing import Dict
 
-from peterpy.config import config
 from peterpy.entities import Product
 from peterpy.interfaces import IRepository
 
@@ -12,7 +11,7 @@ class ProductService:
 
     async def add(self, name: str, price: float):
         product = Product(name=name, price=price)
-        logging.debug(f"Adding product {product}")
+        logging.debug("Adding product %s", product)
 
         stored_product = self.repository.add(product, flush=True)
 
@@ -36,7 +35,7 @@ class ProductService:
         if not product:
             raise KeyError(f"Product with product_id {product_id} not found")
 
-        self._repository.remove(product)
+        self.repository.remove(product)
 
     def get(self, product_id):
         product = self.repository.get(product_id)

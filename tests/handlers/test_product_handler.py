@@ -1,9 +1,10 @@
 import json
+from unittest.mock import AsyncMock, AsyncMockMixin, Mock, patch
+
 import pytest
-from unittest.mock import Mock, AsyncMock, AsyncMockMixin, patch
 
 from peterpy.entities import Product
-from peterpy.handlers.product_handler import list_products, add_product
+from peterpy.handlers.product_handler import add_product, list_products
 from peterpy.interfaces.request import PeterRequest
 from peterpy.services.product_service import ProductService
 from tests.handlers import BaseHandlerTestCase
