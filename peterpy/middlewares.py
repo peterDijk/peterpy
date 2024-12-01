@@ -4,7 +4,7 @@ from aiohttp import web
 from aiohttp.web import Request
 
 from peterpy.database import DatabaseConnection, DatabaseSession
-from peterpy.helpers import json_response
+from peterpy.helpers import json_response, PeterRequest
 from peterpy.repositories import DatabaseProductRepository
 from peterpy.services import ProductService
 
@@ -15,13 +15,15 @@ def db_session_wrapper_factory(db_connection: DatabaseConnection):
         logging.debug("db_session_wrapper called")
         engine = db_connection.engine()
 
+        peter_request = PeterRequest(request)
+
         with DatabaseSession(engine) as session:
             try:
                 repository = DatabaseProductRepository(session)
                 product_service = ProductService(repository)
-                request.product_service = product_service
+                peter_request.product_service = product_service
 
-                response = await handler(request)
+                response = await handler(peter_request)
                 logging.debug("db_session_wrapper committing")
                 session.commit()
                 logging.debug("db_session_wrapper finished")

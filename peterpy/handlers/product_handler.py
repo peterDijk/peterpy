@@ -6,7 +6,10 @@ from aiohttp.web import Request, Response
 from peterpy.helpers import json_response, PeterRequest
 
 
-async def list_products(request: PeterRequest) -> Response:
+async def list_products(request: Request) -> Response:
+    if not isinstance(request, PeterRequest):
+        raise ValueError("Request is not of type PeterRequest")
+
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
@@ -22,13 +25,15 @@ async def list_products(request: PeterRequest) -> Response:
     return json_response(status=200, content={"products": products})
 
 
-async def get_product(request: PeterRequest) -> Response:
+async def get_product(request: Request) -> Response:
+    if not isinstance(request, PeterRequest):
+        raise ValueError("Request is not of type PeterRequest")
+
     logging.debug("---------------------------------")
-    logging.info("Get oneee product requested from %s", request.remote)
+    logging.info("Get one product requested from %s", request.remote)
 
     try:
         product_id = UUID(request.match_info["id"])
-        logging.info("Product ID: %s", product_id)
     except ValueError:
         return json_response(status=400, content={"error": "Invalid UUID"})
 
@@ -40,25 +45,34 @@ async def get_product(request: PeterRequest) -> Response:
     return json_response(status=200, content={"product": product})
 
 
-async def add_product(request: PeterRequest) -> Response:
-    logging.debug("---------------------------------")
-    logging.info("Add product requested from %s", request.remote)
+async def add_product(request: Request) -> Response:
+    try:
+        if not isinstance(request, PeterRequest):
+            raise ValueError("Request is not of type PeterRequest")
 
-    data = await request.json()
-    name = data.get("name")
-    price = data.get("price")
+        logging.debug("---------------------------------")
+        logging.info("Add product requested from %s", request.remote)
 
-    product = await request.product_service.add(name, price)
+        data = await request.json()
+        name = data.get("name")
+        price = data.get("price")
 
-    return json_response(
-        status=201,
-        content={"product": product},
-    )
+        product = await request.product_service.add(name, price)
+
+        return json_response(
+            status=201,
+            content={"product": product},
+        )
+    except ValueError as e:
+        return json_response(status=500, content={"error": str(e)})
 
 
 # Add this to show adding batch of products, while only
 # committing at the end of the batch in the middleware
-async def add_products(request: PeterRequest) -> Response:
+async def add_products(request: Request) -> Response:
+    if not isinstance(request, PeterRequest):
+        raise ValueError("Request is not of type PeterRequest")
+
     logging.debug("---------------------------------")
     logging.info("Add multiple products requested from %s", request.remote)
 
@@ -73,7 +87,10 @@ async def add_products(request: PeterRequest) -> Response:
     return json_response(status=201, content={"products": products})
 
 
-async def get_dashboard(request: PeterRequest) -> Response:
+async def get_dashboard(request: Request) -> Response:
+    if not isinstance(request, PeterRequest):
+        raise ValueError("Request is not of type PeterRequest")
+
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
