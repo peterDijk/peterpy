@@ -6,10 +6,7 @@ from aiohttp.web import Request, Response
 from peterpy.helpers import json_response, PeterRequest
 
 
-async def list_products(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not of type PeterRequest")
-
+async def list_products(request: PeterRequest) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 

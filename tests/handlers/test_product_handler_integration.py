@@ -1,11 +1,9 @@
 import json
-from unittest.mock import ANY, AsyncMock, AsyncMockMixin, Mock, patch
+from unittest.mock import ANY, AsyncMock, Mock, patch
 
 import pytest
 
 from peterpy.entities import Product
-from peterpy.handlers.product_handler import add_product, list_products
-from peterpy.helpers import PeterRequest
 from peterpy.services.product_service import ProductService
 from tests.handlers import BaseHandlerTestCase
 from tests.helpers import create_uuid_from_string
@@ -144,28 +142,29 @@ class TestProductHandlers(BaseHandlerTestCase):
             }
         }
 
-    # @pytest.mark.asyncio
-    # async def test_list_products_integration(self):
-    #     """
-    #     Test list products integration including the client
-    #     """
-    #     response = await self.client.request("GET", "/product/list")
+    @pytest.mark.skip
+    @pytest.mark.asyncio
+    async def test_list_products_integration(self):
+        """
+        Test list products integration including the client
+        """
+        response = await self.client.request("GET", "/product/list")
 
-    #     assert response.status == 200
-    #     response_body = await response.text()
-    #     assert json.loads(response_body) == {
-    #         "products": [
-    #             {
-    #                 "product_id": str(create_uuid_from_string("p1")),
-    #                 "name": "product_1",
-    #                 "price": 10.0,
-    #                 "date_added": ANY,
-    #             },
-    #             {
-    #                 "product_id": str(create_uuid_from_string("p2")),
-    #                 "name": "product_2",
-    #                 "price": 10.0,
-    #                 "date_added": ANY,
-    #             },
-    #         ]
-    #     }
+        assert response.status == 200
+        response_body = await response.text()
+        assert json.loads(response_body) == {
+            "products": [
+                {
+                    "product_id": str(create_uuid_from_string("p10")),
+                    "name": "product_10",
+                    "price": 10.0,
+                    "date_added": ANY,
+                },
+                {
+                    "product_id": str(create_uuid_from_string("p20")),
+                    "name": "product_20",
+                    "price": 10.0,
+                    "date_added": ANY,
+                },
+            ]
+        }
