@@ -4,9 +4,11 @@ from aiohttp import web
 from aiohttp.test_utils import AioHTTPTestCase
 
 from peterpy.app import setup_routes
-from peterpy.database.connection import DatabaseConnection
+from peterpy.database.connection import DatabaseConnection, DatabaseSession
 from peterpy.database.models.base import Base
+from peterpy.database.models.product import Product as ProductModel
 from peterpy.middlewares import db_session_wrapper_factory
+from tests.helpers import create_uuid_from_string
 
 
 class BaseHandlerTestCase(AioHTTPTestCase):
@@ -18,7 +20,6 @@ class BaseHandlerTestCase(AioHTTPTestCase):
         app = web.Application(middlewares=[db_session_wrapper_factory(connection)])
         setup_routes(app)
 
-        # need to find a way to drop the tables after the tests
         return app
 
     async def tearDownAsync(self):

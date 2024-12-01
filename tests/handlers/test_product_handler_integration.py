@@ -143,3 +143,29 @@ class TestProductHandlers(BaseHandlerTestCase):
                 "products_total_value": 70.0,
             }
         }
+
+    # @pytest.mark.asyncio
+    # async def test_list_products_integration(self):
+    #     """
+    #     Test list products integration including the client
+    #     """
+    #     response = await self.client.request("GET", "/product/list")
+
+    #     assert response.status == 200
+    #     response_body = await response.text()
+    #     assert json.loads(response_body) == {
+    #         "products": [
+    #             {
+    #                 "product_id": str(create_uuid_from_string("p1")),
+    #                 "name": "product_1",
+    #                 "price": 10.0,
+    #                 "date_added": ANY,
+    #             },
+    #             {
+    #                 "product_id": str(create_uuid_from_string("p2")),
+    #                 "name": "product_2",
+    #                 "price": 10.0,
+    #                 "date_added": ANY,
+    #             },
+    #         ]
+    #     }

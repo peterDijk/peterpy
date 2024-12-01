@@ -25,33 +25,26 @@ async def list_products(request: Request) -> Response:
     return json_response(status=200, content={"products": products})
 
 
+# TODO: because of the PeterRequest, the match_info is lost
 async def get_product(request: Request) -> Response:
     if not isinstance(request, PeterRequest):
         raise ValueError("Request is not of type PeterRequest")
 
     logging.debug("---------------------------------")
     logging.info("Get oneee product requested from %s", request.remote)
-    logging.info("Product ID")
 
-    logging.info("Product ID: %s", request.match_info["id"])
+    try:
+        product_id = UUID(request.match_info["id"])
+        logging.info("Product ID: %s", product_id)
+    except ValueError:
+        return json_response(status=400, content={"error": "Invalid UUID"})
 
-    return Response(status=200)
+    try:
+        product = request.product_service.get(product_id)
+    except KeyError as e:
+        return json_response(status=404, content={"error": str(e)})
 
-    # try:
-    #     product_id = UUID(request.match_info["id"])
-    #     logging.info("Product ID: %s", product_id)
-    # except ValueError:
-    #     return json_response(status=400, content={"error": "Invalid UUID"})
-    # except Exception as e:
-    #     logging.error("Error getting product ID: %s", e)
-    #     return json_response(status=500, content={"error": str(e)})
-
-    # try:
-    #     product = request.product_service.get(product_id)
-    # except KeyError as e:
-    #     return json_response(status=404, content={"error": str(e)})
-
-    # return json_response(status=200, content={"product": product})
+    return json_response(status=200, content={"product": product})
 
 
 async def add_product(request: Request) -> Response:
