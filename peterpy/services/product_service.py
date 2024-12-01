@@ -38,6 +38,7 @@ class ProductService:
         self.repository.remove(product)
 
     def get(self, product_id):
+        logging.info("Getting product with product_id %s", product_id)
         product = self.repository.get(product_id)
         return product
 
