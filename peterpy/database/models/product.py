@@ -12,7 +12,9 @@ class Product(Base):
     product_id = Column(String(255), primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
     price = Column(BigInteger, nullable=False)
-    date_added = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
+    date_added = Column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
+    )
 
     def __repr__(self) -> str:
         return (

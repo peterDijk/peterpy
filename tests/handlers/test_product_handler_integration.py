@@ -177,14 +177,14 @@ class TestProductHandlers(BaseHandlerTestCase):
         assert json.loads(response_body) == {
             "products": [
                 {
-                    "product_id": str(create_uuid_from_string("p10")),
-                    "name": "product_10",
+                    "product_id": str(create_uuid_from_string("p20")),
+                    "name": "product_20",
                     "price": 10.0,
                     "date_added": ANY,
                 },
                 {
-                    "product_id": str(create_uuid_from_string("p20")),
-                    "name": "product_20",
+                    "product_id": str(create_uuid_from_string("p10")),
+                    "name": "product_10",
                     "price": 10.0,
                     "date_added": ANY,
                 },
