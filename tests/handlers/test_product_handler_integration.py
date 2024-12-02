@@ -199,3 +199,12 @@ class TestProductHandlers(BaseHandlerTestCase):
         )
 
         assert response.status == 200
+        response_body = await response.text()
+        assert json.loads(response_body) == {
+            "product": {
+                "product_id": str(create_uuid_from_string("p20")),
+                "name": "product_20",
+                "price": 10.0,
+                "date_added": ANY,
+            }
+        }
