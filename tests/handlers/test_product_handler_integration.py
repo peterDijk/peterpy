@@ -3,7 +3,9 @@ from unittest.mock import ANY, AsyncMock, Mock, patch
 
 import pytest
 
+from peterpy.database.connection import DatabaseSession
 from peterpy.entities import Product
+from peterpy.database.models.product import Product as ProductModel
 from peterpy.services.product_service import ProductService
 from tests.handlers import BaseHandlerTestCase
 from tests.helpers import create_uuid_from_string
@@ -147,6 +149,27 @@ class TestProductHandlers(BaseHandlerTestCase):
         """
         Test list products integration including the client
         """
+
+        def seed():
+            # Seed the database with some products
+            product_1 = ProductModel(
+                product_id=str(create_uuid_from_string("p10")),
+                name="product_10",
+                price=10.0,
+            )
+            product_2 = ProductModel(
+                product_id=str(create_uuid_from_string("p20")),
+                name="product_20",
+                price=10.0,
+            )
+
+            with DatabaseSession(self.connection.engine()) as session:
+                session.add(product_1)
+                session.add(product_2)
+                session.commit()
+
+        seed()
+
         response = await self.client.request("GET", "/product/list")
 
         assert response.status == 200
