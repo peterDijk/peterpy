@@ -11,7 +11,7 @@ from aiohttp import web
 from peterpy import __version__
 from peterpy.config import config, environment
 from peterpy.database.connection import DatabaseConnection
-from peterpy.database.models.product import Product
+from peterpy.database.models.base import Base
 from peterpy.handlers import health_handler, product_handler
 from peterpy.middlewares import db_session_wrapper_factory
 
@@ -74,10 +74,16 @@ def main():
 
     try:
         # Open Database connection
-        db_connection = DatabaseConnection()
+
+        connection_string = (
+            f"mysql+mysqlconnector://root:{config['MYSQL_ROOT_PASSWORD']}"
+            f"@{config['MYSQL_HOST']}:{config['MYSQL_TCP_PORT']}"
+            f"/{config['MYSQL_DATABASE']}"
+        )
+        db_connection = DatabaseConnection(connection_string)
 
         engine = db_connection.engine()
-        Product.metadata.create_all(engine)
+        Base.metadata.create_all(engine)
         # move above to FLyway migrations in follow up PR
 
         asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())

@@ -9,6 +9,7 @@ def product_model_to_entity(product_model: ProductModel) -> ProductEntity:
         product_id=UUID(str(product_model.product_id)),
         name=str(product_model.name),
         price=int(product_model.price),
+        date_added=str(product_model.date_added),
     )
 
 
@@ -17,4 +18,5 @@ def product_entity_to_model(product_entity: ProductEntity) -> ProductModel:
         product_id=str(product_entity.product_id),
         name=product_entity.name,
         price=int(product_entity.price),
+        date_added=product_entity.date_added,
     )

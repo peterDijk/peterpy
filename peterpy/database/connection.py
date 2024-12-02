@@ -3,17 +3,9 @@ import logging
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
 
-from peterpy.config import config
-
-connection_string = (
-    f"mysql+mysqlconnector://root:{config['MYSQL_ROOT_PASSWORD']}"
-    f"@{config['MYSQL_HOST']}:{config['MYSQL_TCP_PORT']}"
-    f"/{config['MYSQL_DATABASE']}"
-)
-
 
 class DatabaseConnection:
-    def __init__(self):
+    def __init__(self, connection_string: str):
         self._engine = create_engine(connection_string, echo=False)
         self.connection = self._engine.connect()
         logging.info("Connected to database")
