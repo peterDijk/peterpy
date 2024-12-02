@@ -142,7 +142,6 @@ class TestProductHandlers(BaseHandlerTestCase):
             }
         }
 
-    @pytest.mark.skip
     @pytest.mark.asyncio
     async def test_list_products_integration(self):
         """
