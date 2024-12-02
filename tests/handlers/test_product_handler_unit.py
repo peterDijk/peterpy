@@ -1,11 +1,11 @@
 import json
 from unittest.mock import AsyncMock, AsyncMockMixin, Mock, patch
+from aiohttp.web import Request
 
 import pytest
 
 from peterpy.entities import Product
 from peterpy.handlers.product_handler import add_product, list_products
-from peterpy.helpers import PeterRequest
 from peterpy.services.product_service import ProductService
 from tests.handlers import BaseHandlerTestCase
 from tests.helpers import create_uuid_from_string
@@ -34,9 +34,9 @@ async def test_list_products(test_products):
         yield test_products[0]
         yield test_products[1]
 
-    request = Mock(spec=PeterRequest)
-    request.product_service = Mock(spec=ProductService)
-    request.product_service.all.return_value = products_generator()
+    request = Mock(spec=Request)
+    request.__getitem__ = Mock(spec=ProductService)
+    request["product_service"].all.return_value = products_generator()
     response = await list_products(request)
     assert response.status == 200
     response_json = json.loads(response.text)
@@ -46,18 +46,18 @@ async def test_list_products(test_products):
 
 @pytest.mark.asyncio
 async def test_add_product_unit(test_products):
-    request = Mock(spec=PeterRequest)
-    request.product_service = Mock(spec=ProductService)
+    request = Mock(spec=Request)
+    request.__getitem__ = Mock(spec=ProductService)
     request.json.return_value = {
         "name": "test_product_added_request",
         "price": 10.0,
     }
 
-    request.product_service.add = AsyncMock(return_value=test_products[0])
+    request["product_service"].add = AsyncMock(return_value=test_products[0])
 
     response = await add_product(request)
 
-    request.product_service.add.assert_called_once_with(
+    request["product_service"].add.assert_called_once_with(
         "test_product_added_request", 10.0
     )
 
