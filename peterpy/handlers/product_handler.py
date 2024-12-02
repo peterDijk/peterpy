@@ -3,7 +3,7 @@ from uuid import UUID
 
 from aiohttp.web import Request, Response
 
-from peterpy.helpers import json_response, PeterRequest
+from peterpy.helpers import json_response
 from peterpy.services.product_service import ProductService
 
 

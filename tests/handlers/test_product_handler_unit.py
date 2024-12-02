@@ -1,5 +1,5 @@
 import json
-from unittest.mock import AsyncMock, AsyncMockMixin, Mock, patch
+from unittest.mock import AsyncMock, Mock
 from aiohttp.web import Request
 
 import pytest
@@ -7,7 +7,6 @@ import pytest
 from peterpy.entities import Product
 from peterpy.handlers.product_handler import add_product, list_products
 from peterpy.services.product_service import ProductService
-from tests.handlers import BaseHandlerTestCase
 from tests.helpers import create_uuid_from_string
 
 
