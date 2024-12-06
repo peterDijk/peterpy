@@ -34,7 +34,7 @@ class IRepository(ABC, Generic[T]):
         raise NotImplementedError
 
     @abstractmethod
-    def all(self) -> Generator[T, None, None]:
+    def all(self, page: int, limit: int) -> Generator[T, None, None]:
         raise NotImplementedError
 
     @abstractmethod

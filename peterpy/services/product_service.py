@@ -48,9 +48,12 @@ class ProductService:
     def find_one(self, product_id):
         return self.repository.find_one(product_id)
 
-    def all(self):
-        generator_products = self.repository.all()
+    def all(self, page: int, limit: int):
+        generator_products = self.repository.all(page, limit)
         return generator_products
 
     def count(self):
         return self.repository.count()
+
+    def sum(self):
+        return self.repository.sum()
