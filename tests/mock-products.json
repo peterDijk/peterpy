@@ -8,5 +8,6 @@
   { "name": "Pawpaw", "price": 475 },
   { "name": "Raisin Tree", "price": 485 },
   { "name": "Santol", "price": 490 },
-  { "name": "Tamarillo", "price": 495 }
+  { "name": "Tamarillo", "price": 495 },
+  { "name": "Another Tamarillo", "price": 500 }
 ]

@@ -40,24 +40,6 @@ class TestProductHandlers(BaseHandlerTestCase):
                 session.add(product)
             session.commit()
 
-    # def seed(self):
-    #     # Seed the database with some products
-    #     product_1 = ProductModel(
-    #         product_id=str(create_uuid_from_string("p10")),
-    #         name="p10",
-    #         price=10.0,
-    #     )
-    #     product_2 = ProductModel(
-    #         product_id=str(create_uuid_from_string("p20")),
-    #         name="p20",
-    #         price=10.0,
-    #     )
-
-    #     with DatabaseSession(self.connection.engine()) as session:
-    #         session.add(product_1)
-    #         session.add(product_2)
-    #         session.commit()
-
     @patch(
         "peterpy.middlewares.ProductService",
         return_value=Mock(spec=ProductService),
@@ -159,8 +141,8 @@ class TestProductHandlers(BaseHandlerTestCase):
 
         assert json.loads(response_body) == {
             "dashboard": {
-                "products_count": 10,
-                "products_total_value": 4690,
+                "products_count": 11,
+                "products_total_value": 5190,
             }
         }
 
@@ -172,10 +154,19 @@ class TestProductHandlers(BaseHandlerTestCase):
         self.seed()
 
         response = await self.client.request("GET", "/product/list?page=1&limit=5")
-
         assert response.status == 200
         response_body = await response.text()
         assert len(json.loads(response_body)["products"]) == 5
+
+        response2 = await self.client.request("GET", "/product/list?page=2&limit=5")
+        assert response2.status == 200
+        response_body2 = await response2.text()
+        assert len(json.loads(response_body2)["products"]) == 5
+
+        response3 = await self.client.request("GET", "/product/list?page=3&limit=5")
+        assert response3.status == 200
+        response_body3 = await response3.text()
+        assert len(json.loads(response_body3)["products"]) == 1
 
     @pytest.mark.asyncio
     async def test_get_one_product_integration(self):

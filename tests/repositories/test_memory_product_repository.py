@@ -56,7 +56,7 @@ def test_find_one_product(repository, product):
 
 def test_all_products(repository, product):
     repository.add(product)
-    all_products = list(repository.all())
+    all_products = list(repository.all(1, 10))
     assert len(all_products) == 1
     assert all_products[0] == product
 
