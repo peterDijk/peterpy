@@ -13,6 +13,9 @@ async def list_products(request: Request) -> Response:
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
 
+    page = int(request.query.get("page", 1))
+    limit = int(request.query.get("limit", 20))
+
     # converting the products to a list here
     # removes the memory advantage of using a generator
     # really using the benefits of a generator would be to use it
@@ -20,7 +23,7 @@ async def list_products(request: Request) -> Response:
     # and stream the response items one by one back to the client
 
     # TODO: investigate how to stream the response item by item back to the client
-    products = list(product_service.all())
+    products = list(product_service.all(page, limit))
 
     return json_response(status=200, content={"products": products})
 
@@ -91,14 +94,11 @@ async def get_dashboard(request: Request) -> Response:
     logging.info("Dashboard requested from %s", request.remote)
 
     products_count = product_service.count()
-    products = product_service.all()
-    # products_total_value = sum([product.price for product in products])
-    # below version is more efficient because it uses a generator expression
-    products_total_value = sum(product.price for product in products)
+    products_sum = product_service.sum()
 
     output = {
         "products_count": products_count,
-        "products_total_value": products_total_value,
+        "products_total_value": products_sum,
     }
 
     return json_response(status=200, content={"dashboard": output})
