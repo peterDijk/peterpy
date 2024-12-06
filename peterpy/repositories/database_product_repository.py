@@ -90,6 +90,7 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
         return result or 0.0
 
     def count(self) -> int:
+        # pylint: disable=not-callable
         stmt = select(func.count(ProductModel.product_id))
         result = self.session.execute(stmt).scalar()
         return result or 0
