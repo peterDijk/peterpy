@@ -3,12 +3,12 @@ from uuid import UUID
 
 from aiohttp.web import Request, Response
 
-from peterpy.helpers import json_response, PeterRequest
+from peterpy.helpers import json_response
+from peterpy.services.product_service import ProductService
 
 
 async def list_products(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not of type PeterRequest")
+    product_service: ProductService = request["product_service"]
 
     logging.debug("---------------------------------")
     logging.info("List products requested from %s", request.remote)
@@ -20,14 +20,13 @@ async def list_products(request: Request) -> Response:
     # and stream the response items one by one back to the client
 
     # TODO: investigate how to stream the response item by item back to the client
-    products = list(request.product_service.all())
+    products = list(product_service.all())
 
     return json_response(status=200, content={"products": products})
 
 
 async def get_product(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not of type PeterRequest")
+    product_service: ProductService = request["product_service"]
 
     logging.debug("---------------------------------")
     logging.info("Get one product requested from %s", request.remote)
@@ -38,7 +37,7 @@ async def get_product(request: Request) -> Response:
         return json_response(status=400, content={"error": "Invalid UUID"})
 
     try:
-        product = request.product_service.get(product_id)
+        product = product_service.get(product_id)
     except KeyError as e:
         return json_response(status=404, content={"error": str(e)})
 
@@ -47,8 +46,7 @@ async def get_product(request: Request) -> Response:
 
 async def add_product(request: Request) -> Response:
     try:
-        if not isinstance(request, PeterRequest):
-            raise ValueError("Request is not of type PeterRequest")
+        product_service: ProductService = request["product_service"]
 
         logging.debug("---------------------------------")
         logging.info("Add product requested from %s", request.remote)
@@ -57,7 +55,7 @@ async def add_product(request: Request) -> Response:
         name = data.get("name")
         price = data.get("price")
 
-        product = await request.product_service.add(name, price)
+        product = await product_service.add(name, price)
 
         return json_response(
             status=201,
@@ -70,8 +68,7 @@ async def add_product(request: Request) -> Response:
 # Add this to show adding batch of products, while only
 # committing at the end of the batch in the middleware
 async def add_products(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not of type PeterRequest")
+    product_service: ProductService = request["product_service"]
 
     logging.debug("---------------------------------")
     logging.info("Add multiple products requested from %s", request.remote)
@@ -82,20 +79,19 @@ async def add_products(request: Request) -> Response:
     for product in products:
         name = product.get("name")
         price = product.get("price")
-        product = await request.product_service.add(name, price)
+        product = await product_service.add(name, price)
 
     return json_response(status=201, content={"products": products})
 
 
 async def get_dashboard(request: Request) -> Response:
-    if not isinstance(request, PeterRequest):
-        raise ValueError("Request is not of type PeterRequest")
+    product_service: ProductService = request["product_service"]
 
     logging.debug("---------------------------------")
     logging.info("Dashboard requested from %s", request.remote)
 
-    products_count = request.product_service.count()
-    products = request.product_service.all()
+    products_count = product_service.count()
+    products = product_service.all()
     # products_total_value = sum([product.price for product in products])
     # below version is more efficient because it uses a generator expression
     products_total_value = sum(product.price for product in products)
