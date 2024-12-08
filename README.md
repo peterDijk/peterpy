@@ -49,10 +49,10 @@ To switch between the 2 methods, stop en remove all containers then build again
 - [x] setup database-session + commit in aiohttp-middleware (1 commit per request). in middleware try/catch with rollback in catch. app start open connection, app shutdown close connection
 - [x] setup dependency injection in app start so handler doesnt need to get repository from the request + and create new service every request (middleware adds product_service to the request.)
 - [x] add test-tooling and unit tests
-- [ ] add pagination to /list
+- [x] add pagination to /list
 - [ ] add custom exceptions (middleware catch Exception, return a fitting response for certain exceptions)
 - [ ] use sqlalchamy async queries https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html for better performance
 - [ ] setup migrations (use Flyway)
 - [ ] input validation
-- [ ] Github Actions (linting, testing)
+- [x] Github Actions (linting, testing)
 - ...
