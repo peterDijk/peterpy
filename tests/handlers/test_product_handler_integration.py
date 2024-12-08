@@ -1,4 +1,4 @@
-from asyncio import sleep
+from datetime import datetime, timedelta
 import json
 import os
 from unittest.mock import ANY, AsyncMock, Mock, patch
@@ -27,11 +27,13 @@ mock_data = load_json_file(mock_products_file_path)
 class TestProductHandlers(BaseHandlerTestCase):
     def seed(self):
         mock_products = []
-        for product in mock_data:
+        for index, product in enumerate(mock_data):
+            date_added = datetime.now() - timedelta(days=1) + timedelta(minutes=index)
             product_model = ProductModel(
                 product_id=str(create_uuid_from_string(product["name"])),
                 name=product["name"],
                 price=product["price"],
+                date_added=date_added,
             )
             mock_products.append(product_model)
 
@@ -157,16 +159,34 @@ class TestProductHandlers(BaseHandlerTestCase):
         assert response.status == 200
         response_body = await response.text()
         assert len(json.loads(response_body)["products"]) == 5
+        assert (json.loads(response_body)["products"][0]) == {
+            "product_id": str(create_uuid_from_string("Another Tamarillo")),
+            "name": "Another Tamarillo",
+            "price": 500.0,
+            "date_added": ANY,
+        }
 
         response2 = await self.client.request("GET", "/product/list?page=2&limit=5")
         assert response2.status == 200
         response_body2 = await response2.text()
         assert len(json.loads(response_body2)["products"]) == 5
+        assert (json.loads(response_body2)["products"][0]) == {
+            "product_id": str(create_uuid_from_string("Oregon Grape")),
+            "name": "Oregon Grape",
+            "price": 470.0,
+            "date_added": ANY,
+        }
 
         response3 = await self.client.request("GET", "/product/list?page=3&limit=5")
         assert response3.status == 200
         response_body3 = await response3.text()
         assert len(json.loads(response_body3)["products"]) == 1
+        assert (json.loads(response_body3)["products"][0]) == {
+            "product_id": str(create_uuid_from_string("Jostaberry")),
+            "name": "Jostaberry",
+            "price": 445.0,
+            "date_added": ANY,
+        }
 
     @pytest.mark.asyncio
     async def test_get_one_product_integration(self):
