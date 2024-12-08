@@ -41,7 +41,7 @@ class MemoryProductRepository(IRepository[Product]):
     def find_one(self, obj_id: UUID) -> Product:
         return self.items[obj_id]
 
-    def all(self) -> Generator[Product, None, None]:
+    def all(self, page: int, limit: int) -> Generator[Product, None, None]:
         # for product in self.items.values():
         #     yield product
         yield from self.items.values()

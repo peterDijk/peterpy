@@ -1,0 +1,13 @@
+[
+  { "name": "Jostaberry", "price": 445 },
+  { "name": "Kaffir Lime", "price": 450 },
+  { "name": "Longan", "price": 455 },
+  { "name": "Mangosteen", "price": 460 },
+  { "name": "Nutmeg", "price": 465 },
+  { "name": "Oregon Grape", "price": 470 },
+  { "name": "Pawpaw", "price": 475 },
+  { "name": "Raisin Tree", "price": 485 },
+  { "name": "Santol", "price": 490 },
+  { "name": "Tamarillo", "price": 495 },
+  { "name": "Another Tamarillo", "price": 500 }
+]

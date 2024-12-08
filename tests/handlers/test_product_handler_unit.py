@@ -35,10 +35,12 @@ async def test_list_products(test_products):
 
     request = Mock(spec=Request)
     request.__getitem__ = Mock(spec=ProductService)
+    request.query = {"page": 1, "limit": 10}
     request["product_service"].all.return_value = products_generator()
     response = await list_products(request)
     assert response.status == 200
     response_json = json.loads(response.text)
+
     assert response_json["products"][0]["name"] == "product_1"
     assert response_json["products"][1]["name"] == "product_2"
 

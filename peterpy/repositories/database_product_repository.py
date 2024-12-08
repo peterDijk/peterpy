@@ -2,7 +2,7 @@ import logging
 from typing import Dict, Generator, List
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -72,15 +72,28 @@ class DatabaseProductRepository(IRepository[ProductEntity]):
     def find_one(self, obj_id: UUID) -> ProductEntity:
         raise NotImplementedError
 
-    def all(self) -> Generator[ProductEntity, None, None]:
-        stmt = select(ProductModel).order_by(ProductModel.date_added.desc())
+    def all(self, page: int, limit: int) -> Generator[ProductEntity, None, None]:
+        offset = (page - 1) * limit
+        stmt = (
+            select(ProductModel)
+            .order_by(ProductModel.date_added.desc())
+            .offset(offset)
+            .limit(limit)
+        )
         for product in self.session.execute(stmt):
             entity = product_model_to_entity(product[0])
             yield entity
 
+    def sum(self) -> float:
+        stmt = select(func.sum(ProductModel.price))
+        result = self.session.execute(stmt).scalar()
+        return result or 0.0
+
     def count(self) -> int:
-        products = self.all()
-        return len(list(products))
+        # pylint: disable=not-callable
+        stmt = select(func.count(ProductModel.product_id))
+        result = self.session.execute(stmt).scalar()
+        return result or 0
 
     def clear(self) -> None:
         raise NotImplementedError

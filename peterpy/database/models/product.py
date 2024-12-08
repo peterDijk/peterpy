@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import BigInteger, Column, DateTime, String
+from sqlalchemy import BigInteger, Column, String
+from sqlalchemy.dialects.mysql import DATETIME
 
 from peterpy.database.models.base import Base
 
@@ -12,9 +13,7 @@ class Product(Base):
     product_id = Column(String(255), primary_key=True)
     name = Column(String(255), nullable=False, unique=True)
     price = Column(BigInteger, nullable=False)
-    date_added = Column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
-    )
+    date_added = Column(DATETIME(fsp=6), default=lambda: datetime.now(timezone.utc))
 
     def __repr__(self) -> str:
         return (

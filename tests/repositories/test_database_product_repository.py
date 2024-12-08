@@ -78,5 +78,5 @@ def test_repository_find_product_not_found(repository):
 
 
 def test_repository_all_products(repository):
-    products = repository.all()
+    products = repository.all(page=1, limit=10)
     assert len(list(products)) == 2
